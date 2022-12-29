@@ -34,7 +34,7 @@ const Header = () => {
             <input
               type="text"
               placeholder="Location"
-              className=" h-12 w-[10em] md:w-[10em] pl-4  outline-none"
+              className=" h-12 w-[25vw] md:w-[10em] pl-4  outline-none"
             />
             {locationDropdownArrow}
           </div>
@@ -47,7 +47,7 @@ const Header = () => {
             <input
               type="text"
               placeholder="Serach for restaurant, cuisine or a dish"
-              className=" h-12 w-[10em] md:w-[23em] outline-none pl-4"
+              className=" h-12 w-[25vw] md:w-[23em] outline-none pl-4"
             />
           </div>
         </div>

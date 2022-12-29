@@ -11,8 +11,12 @@ const Footer = () => {
   return (
     <section className="bg-[#F8F8F8] py-[3em]">
       <div className="max-w-[1100px] mx-4 lg:mx-auto ">
-        <div className="flex justify-between">
-          <img src={footerLogo} alt="" className="scale-[0.65] ml-[-2em] " />
+        <div className="flex flex-col sm:flex-row  sm:justify-between">
+          <img
+            src={footerLogo}
+            alt=""
+            className=" scale-[0.3] sm:scale-[0.5] md:scale-[0.65] sm:ml-[-2em] "
+          />
           <div className="flex gap-2">
             <div
               className="min-w-[8em] min-h-11  border-2 rounded-md grid grid-cols-2 justify-center  py-2 px-2  pr-6 relative hover:cursor-pointer"
