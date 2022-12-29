@@ -1,6 +1,7 @@
 import React from "react";
 import background from "../images/background.avif";
 import logo from "../images/mainlogo.avif";
+import { location, locationDropdownArrow, Searchicon } from "../icons";
 
 const Header = () => {
   return (
@@ -28,15 +29,27 @@ const Header = () => {
           Discover the best food & drinks in Kollam
         </h2>
         <div className="mt-8 w-fit mx-auto flex px-4">
-          <input
-            type="text"
-            placeholder="Location"
-            className=" rounded-l-md h-12 md:w-[23em] pl-6  outline-none"
-          />
-          <input
-            type="text"
-            className="rounded-r-md h-12 md:w-[23em] outline-none"
-          />
+          <div className="relative px-6 bg-white  rounded-l-md">
+            {location}
+            <input
+              type="text"
+              placeholder="Location"
+              className=" h-12 w-[10em] md:w-[10em] pl-4  outline-none"
+            />
+            {locationDropdownArrow}
+          </div>
+          <div className="bg-white h-12 flex">
+            <div className="h-[1.5em] w-[1.6px] bg-[#a0a0a0] my-auto"></div>
+          </div>
+
+          <div className="relative px-6 bg-white rounded-r-md">
+            {Searchicon}
+            <input
+              type="text"
+              placeholder="Serach for restaurant, cuisine or a dish"
+              className=" h-12 w-[10em] md:w-[23em] outline-none pl-4"
+            />
+          </div>
         </div>
       </div>
     </section>

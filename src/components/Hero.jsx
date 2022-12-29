@@ -1,5 +1,6 @@
 import React from "react";
 import orderimg from "../images/orderonline.avif";
+import { rightArrow } from "../icons";
 
 const Hero = () => {
   return (
@@ -26,19 +27,22 @@ const Hero = () => {
       </div>
 
       <div className=" grid sm:grid-cols-3 gap-3 ">
-        <div className="border-[1px]  rounded-lg py-3 px-3 shadow-sm hover:shadow-md">
+        <div className="border-[1px]  rounded-lg py-3 px-3 shadow-sm hover:shadow-md relative">
+          {rightArrow}
           <h2 className=" text-[1em] md:text-xl tracking-wide pb-1">
             Kollam Locality
           </h2>
           <p className="md:text-lg text-gray-600">350 places</p>
         </div>
-        <div className="border-[1px]  rounded-lg py-3 px-3 shadow-sm  hover:shadow-md">
+        <div className="border-[1px]  rounded-lg py-3 px-3 shadow-sm  hover:shadow-md relative">
+          {rightArrow}
           <h2 className=" text-[1em] md:text-xl tracking-wide pb-1">
             Varkala Locality
           </h2>
           <p className="md:text-lg text-gray-600">37 places</p>
         </div>
-        <div className="border-[1px]  rounded-lg py-3 px-3 shadow-sm  hover:shadow-md">
+        <div className="border-[1px]  rounded-lg py-3 px-3 shadow-sm  hover:shadow-md relative">
+          {rightArrow}
           <h2 className=" text-[1em] md:text-xl tracking-wide pb-1">
             Chathannoor Locality
           </h2>
