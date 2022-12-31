@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import background from "../images/background.avif";
 import logo from "../images/mainlogo.avif";
 import { location, locationDropdownArrow, Searchicon } from "../icons";
+import SearchBarPopupMenu from "./SearchBarPopupMenu";
 
 const Header = () => {
+  const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
   return (
     <section className="w-[100%]  text-white  min-h-[27rem] relative">
       <div className=" absolute w-[100%] h-[100%] overflow-hidden z-[-2]">
@@ -28,8 +30,11 @@ const Header = () => {
         <h2 className="mt-8 text-2xl md:text-4xl tracking-wider">
           Discover the best food & drinks in Kollam
         </h2>
-        <div className="mt-8 w-fit mx-auto flex px-4">
-          <div className="relative px-6 bg-white  rounded-l-md">
+        <div className="mt-8 w-fit mx-auto flex px-4 relative">
+          <div
+            className="relative px-6 bg-white  rounded-l-md"
+            onClick={() => setIsSearchbarOpen(!isSearchbarOpen)}
+          >
             {location}
             <input
               type="text"
@@ -50,6 +55,9 @@ const Header = () => {
               className=" h-12 w-[25vw] md:w-[23em] outline-none pl-4"
             />
           </div>
+          {isSearchbarOpen && (
+            <SearchBarPopupMenu setIsSearchbarOpen={setIsSearchbarOpen} />
+          )}
         </div>
       </div>
     </section>

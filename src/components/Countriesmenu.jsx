@@ -2,7 +2,7 @@ import React from "react";
 
 const Countriesmenu = ({ countries, setCountry }) => {
   return (
-    <div className="absolute z-[2]  md:w-[40em] min-h-max px-4 py-4 grid grid-cols-2 md:grid-cols-4 top-[-22em] left-[-15em] border bg-white rounded-md ">
+    <div className="absolute z-[2] w-fit md:w-[40em] min-h-max px-4 py-4 grid grid-cols-2 md:grid-cols-4 bottom-[5em] sm:top-[-38em] md:top-[-22em] right-[-10em] sm:left-[-10em] md:left-[-30em] border bg-white rounded-md ">
       {countries.map((item, index) => {
         return (
           <div

@@ -5,7 +5,7 @@ const ExploreDropdown = ({ data }) => {
   const [isClicked, setIsClicked] = useState(false);
   return (
     <div
-      className="border w-[100%] rounded-md shadow px-4 py-5 relative  "
+      className="border w-[100%] rounded-md shadow px-4 py-5 relative hover:cursor-pointer  "
       onClick={() => setIsClicked(!isClicked)}
     >
       <h1 className="text-xl tracking-wider hover:cursor-pointer">

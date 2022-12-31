@@ -5,12 +5,10 @@ const CitiesDropdown = ({ data }) => {
   const [isClicked, setIsClicked] = useState(false);
   return (
     <div
-      className="border w-[100%] rounded-md shadow px-4 py-5 relative  "
+      className="border w-[100%] rounded-md shadow px-4 py-5 relative hover:cursor-pointer  "
       onClick={() => setIsClicked(!isClicked)}
     >
-      <h1 className="text-xl tracking-wider hover:cursor-pointer">
-        {data.title}
-      </h1>
+      <h1 className="text-xl tracking-wider ">{data.title}</h1>
 
       {isClicked && (
         <div className="grid grid-cols-3 md:grid-cols-5 py-4 gap-2">
