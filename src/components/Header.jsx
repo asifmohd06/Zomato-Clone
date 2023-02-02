@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import background from "../images/background.avif";
 import logo from "../images/mainlogo.avif";
 import { location, locationDropdownArrow, Searchicon } from "../icons";
 import SearchBarPopupMenu from "./SearchBarPopupMenu";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleSearchbar } from "./features/header/headerSlice";
 
 const Header = () => {
-  const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { isSearchbarOpen } = useSelector((state) => state.header);
+  const { city } = useSelector((state) => state.user);
+
   return (
     <section className="w-[100%]  text-white  min-h-[27rem] relative">
       <div className=" absolute w-[100%] h-[100%] overflow-hidden z-[-2]">
@@ -28,12 +33,12 @@ const Header = () => {
       <div className="pt-24 md:pt-6 text-center">
         <img src={logo} alt="" className=" w-[18em] mx-auto" />
         <h2 className="mt-8 text-2xl md:text-4xl tracking-wider">
-          Discover the best food & drinks in Kollam
+          Discover the best food & drinks in <span>{city}</span>
         </h2>
         <div className="mt-8 w-fit mx-auto flex px-4 relative">
           <div
             className="relative px-6 bg-white  rounded-l-md"
-            onClick={() => setIsSearchbarOpen(!isSearchbarOpen)}
+            onClick={() => dispatch(toggleSearchbar())}
           >
             {location}
             <input
@@ -55,9 +60,7 @@ const Header = () => {
               className=" h-12 w-[25vw] md:w-[23em] outline-none pl-4"
             />
           </div>
-          {isSearchbarOpen && (
-            <SearchBarPopupMenu setIsSearchbarOpen={setIsSearchbarOpen} />
-          )}
+          {isSearchbarOpen && <SearchBarPopupMenu />}
         </div>
       </div>
     </section>

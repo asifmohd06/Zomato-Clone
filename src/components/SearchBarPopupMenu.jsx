@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { cities } from "../data";
+import { toggleSearchbar } from "./features/header/headerSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { setCity } from "./features/user/userSlice";
 
-const SearchBarPopupMenu = ({ setIsSearchbarOpen }) => {
-  const [data, setData] = useState(cities.values);
-  const [city, setCity] = useState("kollam");
+const SearchBarPopupMenu = () => {
+  const dispatch = useDispatch();
+  const data = cities.values;
   const setCityandClose = (e) => {
-    setCity(e.target.textContent);
-    setIsSearchbarOpen(false);
+    dispatch(setCity(e.target.textContent));
+    dispatch(toggleSearchbar());
   };
   return (
     <div className="w-[20em] h-[13em] bg-white border-2 rounded-md absolute top-[3.5em] flex flex-col overflow-y-auto z-[2]">

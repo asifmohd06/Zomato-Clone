@@ -11,7 +11,9 @@ const FooterLinks = () => {
         <ul className="text-gray-700 font-light tracking-wide">
           <li>Who We Are</li>
           <li>Blog</li>
-          <li>Work With Us</li>
+          <li>
+            <a href="">Work With Us</a>
+          </li>
           <li>Contact Us</li>
         </ul>
       </div>

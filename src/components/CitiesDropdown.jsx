@@ -12,11 +12,12 @@ const CitiesDropdown = ({ data }) => {
 
       {isClicked && (
         <div className="grid grid-cols-3 md:grid-cols-5 py-4 gap-2">
-          {data.values.map((item) => {
+          {data.values.map((item, index) => {
             return (
               <a
                 href={`#${item}`}
                 className="tracking-wider font-light text-[1em] text-gray-500 px-2 hover:text-gray-900"
+                key={index}
               >
                 {item}
               </a>
