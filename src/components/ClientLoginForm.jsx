@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setClientId,
@@ -6,11 +5,10 @@ import {
   setUserName,
 } from "./features/clients/clientsSlice";
 import { useForm } from "react-hook-form";
-import logo from "../images/mainlogo.avif";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import HeaderBasic from "./HeaderBasic";
-const RegisterForm = () => {
+import { useNavigate } from "react-router-dom";
+const ClientLoginForm = () => {
   const {
     register,
     handleSubmit,
@@ -18,11 +16,8 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm();
 
-  const [response, setResponse] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { clientId } = useSelector((store) => store.client);
 
   const errorMsgStyle = " text-red-400 tracking-wide md:w-[30rem] ";
   const inputStyle = `px-3 md:w-[30rem]  rounded-lg min-h-[2.5rem]`;
@@ -38,13 +33,21 @@ const RegisterForm = () => {
       },
     };
     await axios
-      .post(`${baseUrl}/api/clients/register`, data, config)
-      .then((res) => {
-        console.log(res.data._id);
-        dispatch(setClientId(res.data._id));
-        dispatch(setUserName(res.data.username));
-        dispatch(setEmail(res.data.email));
-        navigate("/");
+      .post(`${baseUrl}/api/clients/login`, data, config)
+      .then((resp) => {
+        if (resp.data.isAlreadyLoggedIn === true) {
+          dispatch(setClientId(resp.data._doc._id));
+          dispatch(setUserName(resp.data._doc.username));
+          dispatch(setEmail(resp.data._doc.email));
+          navigate("/");
+        } else if (resp.data.isAlreadyLoggedIn === false) {
+          dispatch(setClientId(resp.data._doc._id));
+          dispatch(setUserName(resp.data._doc.username));
+          dispatch(setEmail(resp.data._doc.email));
+          navigate("/");
+        } else {
+          navigate("/clients/login");
+        }
       })
       .catch((err) => console.log(err));
     reset();
@@ -54,29 +57,12 @@ const RegisterForm = () => {
       <HeaderBasic />
       <div className="max-w-[1100px] bg-form bg-no-repeat bg-cover bg-center mx-3 md:mx-4 lg:mx-auto py-4 px-4 rounded-md text-center tracking-wide mt-20 my-4 relative">
         <h1 className="text-center font-[700] text-4xl py-2 text-white">
-          Register
+          Login
         </h1>
         <form
           onSubmit={handleSubmit(submitForm)}
           className="grid gap-4 py-4 justify-center"
         >
-          <label id="email" className="text-xl font-[600] text-white">
-            Enter Mail Id
-          </label>
-          <input
-            type="text"
-            {...register("email", {
-              required: true,
-              pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-            })}
-            className={inputStyle}
-          />
-          {errors.email?.type === "required" && (
-            <p className={errorMsgStyle}>email is required</p>
-          )}
-          {errors.email?.type === "pattern" && (
-            <p className={errorMsgStyle}>email is not valid</p>
-          )}
           <label id="username" className="text-xl font-[600] text-white">
             Enter Username
           </label>
@@ -118,15 +104,14 @@ const RegisterForm = () => {
           )}
           <button
             type="submit"
-            className=" py-2 mx-auto w-[5rem] bg-[#3176e4] text-white rounded-lg"
+            class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-[600]  rounded-lg  text-center py-2 mx-auto w-[5rem]"
           >
-            SUBMIT
+            LOG IN
           </button>
         </form>
       </div>
-      {clientId && <p>logged in as {clientId}</p>}
     </div>
   );
 };
 
-export default RegisterForm;
+export default ClientLoginForm;

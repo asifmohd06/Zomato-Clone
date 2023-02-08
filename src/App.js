@@ -1,19 +1,46 @@
+import Main from "./components/Main";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import {
-  Home,
-  RestaurantCreateForm,
-  CreateMenu,
-  RegisterForm,
-} from "./components";
-import { Routes, Route } from "react-router-dom";
+  setClientId,
+  setEmail,
+  setUserName,
+} from "./components/features/clients/clientsSlice";
+import Loading from "./components/Loading";
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  axios.defaults.withCredentials = true;
+  const baseUrl = "http://127.0.0.1:5000";
+  const getData = async () => {
+    setLoading(true);
+    await axios
+      .post(`${baseUrl}/api/clients/auth`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.data.success === false) {
+        } else {
+          dispatch(setClientId(res.data._doc._id));
+          dispatch(setUserName(res.data._doc.username));
+          dispatch(setEmail(res.data._doc.email));
+        }
+      })
+      .catch((err) => console.log(err));
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/addrestaurant" element={<RestaurantCreateForm />} />
-      <Route path="/createmenu" element={<CreateMenu />} />
-      <Route path="/clients/register" element={<RegisterForm />} />
-    </Routes>
+    <>
+      {!loading && <Main />}
+      {loading && <Loading />}
+    </>
   );
 };
 

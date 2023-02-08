@@ -10,7 +10,7 @@ const RestaurantCreateForm = () => {
   const navigate = useNavigate();
 
   const { register, handleSubmit, reset } = useForm();
-  const baseUrl = "http://localhost:5000";
+  const baseUrl = "http://127.0.0.1:5000";
 
   const dispatch = useDispatch();
 

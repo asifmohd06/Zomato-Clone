@@ -1,15 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import background from "../images/background.avif";
 import logo from "../images/mainlogo.avif";
 import { location, locationDropdownArrow, Searchicon } from "../icons";
 import SearchBarPopupMenu from "./SearchBarPopupMenu";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSearchbar } from "./features/header/headerSlice";
+import {
+  setClientId,
+  setEmail,
+  setUserName,
+  resetUser,
+} from "./features/clients/clientsSlice";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { isSearchbarOpen } = useSelector((state) => state.header);
-  const { city } = useSelector((state) => state.user);
+  const { isSearchbarOpen } = useSelector((store) => store.header);
+  const { city } = useSelector((store) => store.user);
+  const { userName, clientId } = useSelector((store) => store.client);
+
+  const baseUrl = "http://127.0.0.1:5000";
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    axios.defaults.withCredentials = true;
+    console.log("clicked");
+    const config = {
+      withCredentials: true,
+    };
+    console.log("before axios");
+    await axios
+      .post(`${baseUrl}/api/clients/logout`, config)
+      .then((resp) => {
+        console.log("called");
+        console.log(resp);
+        if (resp.data.logout === "success") {
+          dispatch(setClientId(""));
+          dispatch(setEmail(""));
+          dispatch(setUserName(""));
+        }
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
+    console.log("after axios");
+  };
 
   return (
     <section className="w-[100%]  text-white  min-h-[27rem] relative">
@@ -24,9 +59,21 @@ const Header = () => {
         <div className=" hidden md:flex justify-end  pr-[10em] pt-2 pb-4">
           <ul className="pt-5 flex mr-0 gap-6 text-center text-[1.25rem]">
             <li>Investor relations</li>
-            <li>Add Restaurant</li>
-            <li>Login</li>
-            <li>Signup</li>
+            <li>
+              <Link to={"/addrestaurant"}>Add Restaurant</Link>
+            </li>
+            {clientId ? (
+              <>
+                <li>{userName}</li>{" "}
+                <li className=" hover:cursor-pointer" onClick={() => logout()}>
+                  Logout
+                </li>
+              </>
+            ) : (
+              <li>
+                <Link to={"/clients/login"}>Login</Link>
+              </li>
+            )}
           </ul>
         </div>
       </nav>

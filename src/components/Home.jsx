@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Hero, Getapp, Options, Footer } from "./";
 
 const Home = () => {
