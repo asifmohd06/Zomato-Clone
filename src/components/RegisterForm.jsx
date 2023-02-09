@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   setClientId,
   setEmail,
   setUserName,
 } from "./features/clients/clientsSlice";
 import { useForm } from "react-hook-form";
-import logo from "../images/mainlogo.avif";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import HeaderBasic from "./HeaderBasic";
@@ -18,11 +17,9 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm();
 
-  const [response, setResponse] = useState("");
+  const [serverError, setserverError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { clientId } = useSelector((store) => store.client);
 
   const errorMsgStyle = " text-red-400 tracking-wide md:w-[30rem] ";
   const inputStyle = `px-3 md:w-[30rem]  rounded-lg min-h-[2.5rem]`;
@@ -40,25 +37,35 @@ const RegisterForm = () => {
     await axios
       .post(`${baseUrl}/api/clients/register`, data, config)
       .then((res) => {
-        console.log(res.data._id);
-        dispatch(setClientId(res.data._id));
-        dispatch(setUserName(res.data.username));
-        dispatch(setEmail(res.data.email));
-        navigate("/");
+        if (res.data.success) {
+          dispatch(setClientId(res.data._id));
+          dispatch(setUserName(res.data.username));
+          dispatch(setEmail(res.data.email));
+          reset();
+          navigate("/");
+        } else {
+          setserverError(res.data.error);
+        }
       })
       .catch((err) => console.log(err));
-    reset();
   };
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setserverError(false);
+    }, 3000);
+    return () => clearTimeout(timeOut);
+  }, [serverError]);
+
   return (
-    <div className=" ">
-      <HeaderBasic />
-      <div className="max-w-[1100px] bg-form bg-no-repeat bg-cover bg-center mx-3 md:mx-4 lg:mx-auto py-4 px-4 rounded-md text-center tracking-wide mt-20 my-4 relative">
+    <div>
+      <HeaderBasic location={"registerPage"} />
+      <div className="max-w-[800px] min-h-[590px]  bg-form bg-no-repeat bg-cover bg-center mx-3 md:mx-4 lg:mx-auto py-4 px-4 rounded-md text-center tracking-wide mt-8 mb-2  relative">
         <h1 className="text-center font-[700] text-4xl py-2 text-white">
-          Register
+          SIGN UP
         </h1>
         <form
           onSubmit={handleSubmit(submitForm)}
-          className="grid gap-4 py-4 justify-center"
+          className="grid gap-4  mt-12 justify-center"
         >
           <label id="email" className="text-xl font-[600] text-white">
             Enter Mail Id
@@ -81,6 +88,7 @@ const RegisterForm = () => {
             Enter Username
           </label>
           <input
+            autoComplete="new-password"
             type="text"
             {...register("username", {
               required: true,
@@ -100,7 +108,8 @@ const RegisterForm = () => {
             Enter Password
           </label>
           <input
-            type="text"
+            autoComplete="new-password"
+            type="password"
             {...register("password", {
               required: true,
               pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/,
@@ -122,9 +131,13 @@ const RegisterForm = () => {
           >
             SUBMIT
           </button>
+          {serverError && (
+            <section className=" w-[15rem] px-2 md:w-[30rem] py-4 bg-[#F48484]  rounded-lg border-[1px] tracking-wide font-[600] text-red-900 border-red-700 flex items-center justify-center">
+              <p>{serverError}</p>
+            </section>
+          )}
         </form>
       </div>
-      {clientId && <p>logged in as {clientId}</p>}
     </div>
   );
 };

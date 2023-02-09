@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { saveCityName, saveRestaurantId } from "./features/Form/formSlice";
 import { useForm } from "react-hook-form";
 import logo from "../images/mainlogo.avif";
+import HeaderBasic from "./HeaderBasic";
 
 const RestaurantCreateForm = () => {
   const navigate = useNavigate();
@@ -50,9 +51,7 @@ const RestaurantCreateForm = () => {
 
   return (
     <div>
-      <div className="w-[100%] h-[5rem] bg-[#1f1e1e] flex align-middle py-6 px-5">
-        <img className="w-[9rem]" src={logo} alt="" />
-      </div>
+      <HeaderBasic />
       <div className=" max-w-[1100px]  py-6 px-4 bg-[#4d429852] text-center lg:mx-auto mx-8 my-24 rounded-lg shadow-lg border-2">
         <h1 className=" text-3xl tracking-wide">Create Restaurant</h1>
         <form
