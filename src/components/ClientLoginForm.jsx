@@ -22,8 +22,7 @@ const ClientLoginForm = () => {
 
   const [serverError, setserverError] = useState("");
 
-  const errorMsgStyle = " text-red-400 tracking-wide md:w-[30rem] ";
-  const inputStyle = `px-3 md:w-[30rem]  rounded-lg min-h-[2.5rem]`;
+  const errorMsgStyle = " text-red-700 tracking-wide md:w-[30rem] ";
 
   const baseUrl = "http://127.0.0.1:5000";
 
@@ -67,91 +66,87 @@ const ClientLoginForm = () => {
     return () => clearTimeout(timeOut);
   }, [serverError]);
   return (
-    <div>
+    <div className="bg-form bg-no-repeat bg-cover bg-center h-[100vh]">
       <HeaderBasic location={"loginPage"} />
       <div className="px-4">
-        <div className="max-w-[800px] min-h-[590px] pt-4 bg-form bg-no-repeat bg-cover bg-center  md:mx-auto lg:mx-auto   rounded-md  tracking-wide mt-8 my-4 relative">
-          <h1 className="text-center font-[700] text-4xl py-2 text-white">
-            SIGN IN
-          </h1>
-          <form
-            onSubmit={handleSubmit(submitForm)}
-            className="grid gap-4 pt-12 justify-center"
-          >
-            <div className="relative z-0 w-full mt-8 group">
-              <input
-                type="text"
-                className=" md:w-[30rem] peer block py-2.5  h-[3rem] px-4 w-full text-sm text-white bg-slate-700  focus:border-[1px] focus:border-white  appearance-none    focus:outline-none focus:ring-0  rounded-lg"
-                placeholder=" "
-                {...register("username", {
-                  required: true,
-                  pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,16}$/,
-                })}
-              />
-              {errors.username?.type === "required" && (
-                <p className={errorMsgStyle}>Username is required</p>
-              )}
-              {errors.username?.type === "pattern" && (
-                <p className={errorMsgStyle}>
-                  username should be a combination of alphanumeric characters
-                </p>
-              )}
-
-              <label
-                htmlFor="ggg"
-                className=" absolute top-1 left-3 text-[23px] text-[#ffffff] font-[550]  duration-300 transform -translate-y-10 -translate-x-0 scale-75  z-10 origin-[0]  peer-focus:text-[23px] peer-focus:font-[550]  peer-focus:left-3 peer-focus:-top-3 peer-focus:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                User Name
-              </label>
-            </div>
-            <div className="relative z-0 w-full mt-8 group">
-              <input
-                type="password"
-                className=" peer block py-2.5  h-[3rem] px-4 w-full text-sm text-white bg-slate-700  focus:border-[1px] focus:border-white  appearance-none    focus:outline-none focus:ring-0  rounded-lg"
-                placeholder=" "
-                {...register("password", {
-                  required: true,
-                  pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/,
-                })}
-              />
-              {errors.password?.type === "required" && (
-                <p className={errorMsgStyle}>Password is required</p>
-              )}
-              {errors.password?.type === "pattern" && (
-                <p className={errorMsgStyle}>
-                  Password should be a combination of minimum 8 alphanumeric
-                  characters
-                </p>
-              )}
-              <label
-                htmlFor="ggg"
-                className=" absolute top-1 left-3 text-[23px] text-[#ffffff] font-[550]  duration-300 transform -translate-y-10 -translate-x-0 scale-75  z-10 origin-[0]  peer-focus:text-[23px] peer-focus:font-[550]  peer-focus:left-3 peer-focus:-top-3 peer-focus:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Password
-              </label>
-            </div>
-            ;
-            <button
-              type="submit"
-              className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-[600]  rounded-lg  text-center py-2 mx-auto w-[5rem]"
-            >
+        <div className="max-w-[800px] min-h-[590px] pt-4 bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-100  md:mx-auto lg:mx-auto   rounded-md  tracking-wide mt-8 my-4 ">
+          <div className="mt-8">
+            <h1 className="text-center font-[700] text-4xl py-2 text-white">
               SIGN IN
-            </button>
-            <p className=" text-white text-center">
-              Don't have an account ?{" "}
-              <Link
-                to={"/clients/register"}
-                className="border-b-2 border-white"
+            </h1>
+            <form
+              onSubmit={handleSubmit(submitForm)}
+              className="grid gap-4 pt-2 justify-center"
+            >
+              <div className="relative z-0 w-full mt-8 group">
+                <input
+                  type="text"
+                  className=" md:w-[30rem] peer block py-2.5  h-[3rem] px-4 w-full text-md text-black bg-transparent border-[#4d4b4b] border-b-2  focus:border-b-[2px] focus:border-[#473ad8]  appearance-none    focus:outline-none focus:ring-0  "
+                  placeholder=" "
+                  {...register("username", {
+                    required: true,
+                    pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,16}$/,
+                  })}
+                />
+                {errors.username?.type === "required" && (
+                  <p className={errorMsgStyle}>Username is required</p>
+                )}
+                {errors.username?.type === "pattern" && (
+                  <p className={errorMsgStyle}>
+                    username should be a combination of alphanumeric characters
+                  </p>
+                )}
+
+                <label className=" absolute top-1 left-3 text-[23px] text-[#504f4f] font-[550]  duration-300 transform -translate-y-10 -translate-x-0 scale-75  -z-10 origin-[0]  peer-focus:text-[23px] peer-focus:font-[550]  peer-focus:left-3 peer-focus:-top-3 peer-focus:text-[#473ad8] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                  User Name
+                </label>
+              </div>
+              <div className="relative z-0 w-full mt-8 group">
+                <input
+                  type="password"
+                  className=" md:w-[30rem] peer block py-2.5  h-[3rem] px-4 w-full text-md text-black bg-transparent border-[#4d4b4b] border-b-2  focus:border-b-[2px] focus:border-[#473ad8]  appearance-none    focus:outline-none focus:ring-0"
+                  placeholder=" "
+                  {...register("password", {
+                    required: true,
+                    pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/,
+                  })}
+                />
+                {errors.password?.type === "required" && (
+                  <p className={errorMsgStyle}>Password is required</p>
+                )}
+                {errors.password?.type === "pattern" && (
+                  <p className={errorMsgStyle}>
+                    Password should be a combination of minimum 8 alphanumeric
+                    characters
+                  </p>
+                )}
+                <label className="absolute top-1 left-3 text-[23px] text-[#504f4f] font-[550]  duration-300 transform -translate-y-10 -translate-x-0 scale-75  -z-10 origin-[0]  peer-focus:text-[23px] peer-focus:font-[550]  peer-focus:left-3 peer-focus:-top-3 peer-focus:text-[#473ad8] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                  Password
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-[600]  rounded-lg  text-center py-2 mx-auto w-[5rem]"
               >
-                Sign up
-              </Link>
-            </p>
-            {serverError && (
-              <section className=" w-[15rem] px-2 md:w-[30rem] py-4 bg-[#F48484]  rounded-lg border-[1px] tracking-wide font-[600] text-red-900 border-red-700 flex items-center justify-center">
-                <p>{serverError}</p>
-              </section>
-            )}
-          </form>
+                SIGN IN
+              </button>
+              <p className=" text-[#3a4947] text-center">
+                Don't have an account ?{" "}
+                <Link
+                  to={"/clients/register"}
+                  className="border-b-2 border-[#3a4947] pb-[2px]"
+                >
+                  Sign up
+                </Link>
+              </p>
+              {serverError && (
+                <section className=" w-[15rem] px-2 md:w-[30rem] py-4 bg-[#f4848481]  rounded-lg border-[1px] tracking-wide font-[600] text-red-900 border-red-700 flex items-center justify-center">
+                  <p>{serverError}</p>
+                </section>
+              )}
+            </form>
+          </div>
         </div>
       </div>
     </div>

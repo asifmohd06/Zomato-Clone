@@ -15,7 +15,8 @@ const CreateMenu = () => {
 
   const { restaurantId } = useSelector((store) => store.form);
   const navigate = useNavigate();
-  const baseUrl = "http://localhost:5000";
+  const baseUrl = "http://127.0.0.1:5000";
+  axios.defaults.withCredentials = true;
 
   const capitalize = (word) => {
     const lower = word.toLowerCase();
@@ -40,7 +41,6 @@ const CreateMenu = () => {
         "content-type": "multipart/form-data",
       },
     };
-
     await axios
       .post(
         `${baseUrl}/api/restaurants/${restaurantId}/addmenu`,
@@ -49,6 +49,7 @@ const CreateMenu = () => {
       )
       .then((res) => {
         console.log("success");
+        console.log(res.data);
         reset();
         navigate("/");
       })

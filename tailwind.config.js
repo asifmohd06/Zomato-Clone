@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        form: "url(/public/background4.jpg)",
+        form: "url(/public/background.jpg)",
       },
     },
   },

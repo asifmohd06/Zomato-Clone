@@ -5,7 +5,9 @@ import { useLocation, Link } from "react-router-dom";
 const HeaderBasic = ({ location }) => {
   return (
     <div className="w-[100%] h-[5rem] bg-[#1f1e1e] flex align-middle justify-between py-6 px-5 pr-8 ">
-      <img className="w-[9rem]" src={logo} alt="" />
+      <Link to={"/"}>
+        <img className="w-[9rem]" src={logo} alt="" />
+      </Link>
       <ul>
         <li className=" text-white text-2xl tracking-wide">
           <Link
