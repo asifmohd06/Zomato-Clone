@@ -5,6 +5,9 @@ module.exports = {
     extend: {
       backgroundImage: {
         form: "url(/public/background.jpg)",
+        menu1: "url(/public/menuBackground.jpg)",
+        menu2: "url(/public/bgMenu2.jpg)",
+        menu3: "url(/public/bgMenu3.jpg)",
       },
     },
   },

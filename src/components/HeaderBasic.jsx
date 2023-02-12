@@ -1,10 +1,10 @@
 import React from "react";
 import logo from "../images/mainlogo.avif";
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const HeaderBasic = ({ location }) => {
   return (
-    <div className="w-[100%] h-[5rem] bg-[#1f1e1e] flex align-middle justify-between py-6 px-5 pr-8 ">
+    <div className=" h-20 bg-[#1f1e1e] flex items-center justify-between  pl-5 pr-8 ">
       <Link to={"/"}>
         <img className="w-[9rem]" src={logo} alt="" />
       </Link>
