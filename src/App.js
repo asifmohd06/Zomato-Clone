@@ -13,7 +13,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   axios.defaults.withCredentials = true;
-  const baseUrl = "http://127.0.0.1:5000";
+  const baseUrl = "https://zomato06.onrender.com";
   const getData = async () => {
     setLoading(true);
     await axios

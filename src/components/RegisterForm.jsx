@@ -23,7 +23,7 @@ const RegisterForm = () => {
 
   const errorMsgStyle = " text-red-700 tracking-wide md:w-[30rem] ";
 
-  const baseUrl = "http://127.0.0.1:5000";
+  const baseUrl = "https://zomato06.onrender.com";
 
   const submitForm = async (data) => {
     const config = {
