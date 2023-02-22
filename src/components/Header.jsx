@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import background from "../images/background.avif";
 import logo from "../images/mainlogo.avif";
 import { location, locationDropdownArrow, Searchicon } from "../icons";
@@ -6,10 +6,10 @@ import SearchBarPopupMenu from "./SearchBarPopupMenu";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSearchbar } from "./features/header/headerSlice";
 import {
-  setClientId,
   setEmail,
   setUserName,
   resetUser,
+  setClientToken,
 } from "./features/clients/clientsSlice";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,32 +18,27 @@ const Header = () => {
   const dispatch = useDispatch();
   const { isSearchbarOpen } = useSelector((store) => store.header);
   const { city } = useSelector((store) => store.user);
-  const { userName, clientId } = useSelector((store) => store.client);
+  const { userName, clientToken } = useSelector((store) => store.client);
 
   const baseUrl = "http://127.0.0.1:5000";
   const navigate = useNavigate();
 
   const logout = async () => {
-    axios.defaults.withCredentials = true;
-    console.log("clicked");
     const config = {
-      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${clientToken}`,
+      },
     };
-    console.log("before axios");
     await axios
       .post(`${baseUrl}/api/clients/logout`, config)
       .then((resp) => {
-        console.log("called");
-        console.log(resp);
-        if (resp.data.logout === "success") {
-          dispatch(setClientId(""));
-          dispatch(setEmail(""));
-          dispatch(setUserName(""));
+        if (resp.data.success) {
+          dispatch(resetUser());
+          dispatch(setClientToken(""));
         }
         navigate("/");
       })
-      .catch((err) => console.log(err));
-    console.log("after axios");
+      .catch((err) => console.log("err"));
   };
 
   return (
@@ -62,7 +57,7 @@ const Header = () => {
             <li>
               <Link to={"/addrestaurant"}>Add Restaurant</Link>
             </li>
-            {clientId ? (
+            {clientToken ? (
               <>
                 <li>{userName}</li>{" "}
                 <li className=" hover:cursor-pointer" onClick={() => logout()}>
@@ -70,9 +65,14 @@ const Header = () => {
                 </li>
               </>
             ) : (
-              <li>
-                <Link to={"/clients/login"}>Login</Link>
-              </li>
+              <>
+                <li>
+                  <Link to={"/clients/login"}>Sign in</Link>
+                </li>
+                <li>
+                  <Link to={"/clients/register"}>Sign up</Link>
+                </li>
+              </>
             )}
           </ul>
         </div>

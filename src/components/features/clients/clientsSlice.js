@@ -1,18 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  clientId: "",
   city: "",
   userName: "",
   email: "",
+  clientToken: "",
 };
 const clientSlice = createSlice({
   name: "clients",
   initialState,
   reducers: {
-    setClientId: (state, { payload }) => {
-      state.clientId = payload;
-    },
     setUserName: (state, { payload }) => {
       state.userName = payload;
     },
@@ -20,15 +17,16 @@ const clientSlice = createSlice({
       state.email = payload;
     },
     resetUser: (state) => {
-      console.log("reseted");
-      state.clientId = "";
-      state.city = "";
       state.userName = "";
       state.email = "";
+      window.localStorage.removeItem("clientToken");
+    },
+    setClientToken: (state, { payload }) => {
+      state.clientToken = payload;
     },
   },
 });
 
 export default clientSlice.reducer;
-export const { setClientId, setEmail, setUserName, resetUser } =
+export const { setEmail, setUserName, resetUser, setClientToken } =
   clientSlice.actions;

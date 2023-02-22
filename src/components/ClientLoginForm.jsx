@@ -1,14 +1,15 @@
+import axios from "axios";
+import HeaderBasic from "./HeaderBasic";
+import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { inputStyle, errorMsgStyle, labelStyle } from "./styles";
 import {
-  setClientId,
+  setClientToken,
   setEmail,
   setUserName,
 } from "./features/clients/clientsSlice";
-import { useForm } from "react-hook-form";
-import axios from "axios";
-import HeaderBasic from "./HeaderBasic";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 const ClientLoginForm = () => {
   const {
     register,
@@ -22,13 +23,12 @@ const ClientLoginForm = () => {
 
   const [serverError, setserverError] = useState("");
 
-  const errorMsgStyle = " text-red-700 tracking-wide md:w-[30rem] ";
+  const errorMsgStyle = " text-red-700 tracking-wide w-[20rem] md:w-[25rem] ";
 
   const baseUrl = "http://127.0.0.1:5000";
 
   const submitForm = async (data) => {
     const config = {
-      withCredentials: true,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -37,16 +37,11 @@ const ClientLoginForm = () => {
     await axios
       .post(`${baseUrl}/api/clients/login`, data, config)
       .then((resp) => {
-        if (resp.data.isAlreadyLoggedIn === true) {
-          dispatch(setClientId(resp.data._doc._id));
-          dispatch(setUserName(resp.data._doc.username));
-          dispatch(setEmail(resp.data._doc.email));
-          reset();
-          navigate("/");
-        } else if (resp.data.isAlreadyLoggedIn === false) {
-          dispatch(setClientId(resp.data._doc._id));
-          dispatch(setUserName(resp.data._doc.username));
-          dispatch(setEmail(resp.data._doc.email));
+        if (resp.data.isAlreadyLoggedIn === false) {
+          window.localStorage.setItem("clientToken", resp.data.token);
+          dispatch(setClientToken(resp.data.token));
+          dispatch(setUserName(resp.data.username));
+          dispatch(setEmail(resp.data.email));
           reset();
           navigate("/");
         } else {
@@ -54,8 +49,8 @@ const ClientLoginForm = () => {
         }
       })
       .catch((err) => {
-        if (err.response.data === "Unauthorized") {
-          setserverError("Username or Password is incorrect");
+        if (err) {
+          console.log(err);
         }
       });
   };
@@ -66,22 +61,22 @@ const ClientLoginForm = () => {
     return () => clearTimeout(timeOut);
   }, [serverError]);
   return (
-    <div className="bg-form bg-no-repeat bg-cover bg-center h-[100vh]">
+    <div className="bg-formBg3 bg-no-repeat bg-cover  bg-center min-h-[100vh] pb-2">
       <HeaderBasic location={"loginPage"} />
       <div className="px-4">
-        <div className="max-w-[800px] min-h-[590px] pt-4 bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-100  md:mx-auto lg:mx-auto   rounded-md  tracking-wide mt-8 my-4 ">
+        <div className="max-w-[600px] min-h-[505px]  py-3 px-[5rem]   bg-[#b1b1b1] bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-30 border border-gray-100   mx-auto mt-8 rounded-lg shadow-lg ">
+          <h1 className="text-3xl text-center mt-12 font-semibold tracking-wider">
+            SIGN IN
+          </h1>
           <div className="mt-8">
-            <h1 className="text-center font-[700] text-4xl py-2 text-white">
-              SIGN IN
-            </h1>
             <form
               onSubmit={handleSubmit(submitForm)}
-              className="grid gap-4 pt-2 justify-center"
+              className="grid gap-3 mt-10 justify-center"
             >
               <div className="relative z-0 w-full mt-8 group">
                 <input
                   type="text"
-                  className=" md:w-[30rem] peer block py-2.5  h-[3rem] px-4 w-full text-md text-black bg-transparent border-[#4d4b4b] border-b-2  focus:border-b-[2px] focus:border-[#473ad8]  appearance-none    focus:outline-none focus:ring-0  "
+                  className="  peer block py-2.5  h-[3rem] px-4 w-[20rem] md:w-[25rem]  text-md text-gray-300 bg-transparent border-[#dddddd] border-b-2  focus:border-b-[2px] focus:border-[#ffffff]  appearance-none    focus:outline-none focus:ring-0 autofill:bg-none  "
                   placeholder=" "
                   {...register("username", {
                     required: true,
@@ -97,14 +92,14 @@ const ClientLoginForm = () => {
                   </p>
                 )}
 
-                <label className=" absolute top-1 left-3 text-[23px] text-[#504f4f] font-[550]  duration-300 transform -translate-y-10 -translate-x-0 scale-75  -z-10 origin-[0]  peer-focus:text-[23px] peer-focus:font-[550]  peer-focus:left-3 peer-focus:-top-3 peer-focus:text-[#473ad8] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                <label className=" absolute top-1 left-3 text-[23px] text-[#ffffff] font-[550]  duration-300 transform -translate-y-10 -translate-x-0 scale-75  -z-10 origin-[0]  peer-focus:text-[23px] peer-focus:font-[550]  peer-focus:left-3 peer-focus:-top-3 peer-focus:text-[#ffffff] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                   User Name
                 </label>
               </div>
               <div className="relative z-0 w-full mt-8 group">
                 <input
                   type="password"
-                  className=" md:w-[30rem] peer block py-2.5  h-[3rem] px-4 w-full text-md text-black bg-transparent border-[#4d4b4b] border-b-2  focus:border-b-[2px] focus:border-[#473ad8]  appearance-none    focus:outline-none focus:ring-0"
+                  className=" peer block py-2.5  h-[3rem] px-4 w-[20rem] md:w-[25rem]  text-md text-gray-400 bg-transparent border-[#d3d3d3] border-b-2  focus:border-b-[2px] focus:border-[#ffffff]  appearance-none    focus:outline-none focus:ring-0 autofill:bg-none"
                   placeholder=" "
                   {...register("password", {
                     required: true,
@@ -120,7 +115,7 @@ const ClientLoginForm = () => {
                     characters
                   </p>
                 )}
-                <label className="absolute top-1 left-3 text-[23px] text-[#504f4f] font-[550]  duration-300 transform -translate-y-10 -translate-x-0 scale-75  -z-10 origin-[0]  peer-focus:text-[23px] peer-focus:font-[550]  peer-focus:left-3 peer-focus:-top-3 peer-focus:text-[#473ad8] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                <label className="absolute top-1 left-3 text-[23px] text-[#ffffff] font-[550]  duration-300 transform -translate-y-10 -translate-x-0 scale-75  -z-10 origin-[0]  peer-focus:text-[23px] peer-focus:font-[550]  peer-focus:left-3 peer-focus:-top-3 peer-focus:text-[#ffffff] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                   Password
                 </label>
               </div>
@@ -131,17 +126,17 @@ const ClientLoginForm = () => {
               >
                 SIGN IN
               </button>
-              <p className=" text-[#3a4947] text-center">
+              <p className=" text-[#f8f8f8] text-center mt-5">
                 Don't have an account ?{" "}
                 <Link
                   to={"/clients/register"}
-                  className="border-b-2 border-[#3a4947] pb-[2px]"
+                  className="border-b-[1px] border-[#ffffff] pb-[3px] hover:text-[#79b1ff] hover:border-[#79b1ff]"
                 >
                   Sign up
                 </Link>
               </p>
               {serverError && (
-                <section className=" w-[15rem] px-2 md:w-[30rem] py-4 bg-[#f4848481]  rounded-lg border-[1px] tracking-wide font-[600] text-red-900 border-red-700 flex items-center justify-center">
+                <section className=" w-[20rem] px-2  md:w-[25rem] py-4 bg-[#f48484b3]  rounded-lg border-[1px] tracking-wide font-[600] text-red-900 border-red-700 flex items-center justify-center">
                   <p>{serverError}</p>
                 </section>
               )}

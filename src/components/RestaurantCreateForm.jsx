@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveCityName, saveRestaurantId } from "./features/Form/formSlice";
 import { useForm } from "react-hook-form";
 import logo from "../images/mainlogo.avif";
@@ -19,7 +19,8 @@ const RestaurantCreateForm = () => {
     formState: { errors },
   } = useForm();
   const baseUrl = "http://127.0.0.1:5000";
-
+  const { clientToken } = useSelector((store) => store.client);
+  console.log(clientToken);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const RestaurantCreateForm = () => {
 
     const config = {
       headers: {
-        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${clientToken}`,
       },
     };
     await axios
