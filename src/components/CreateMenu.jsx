@@ -16,7 +16,7 @@ const CreateMenu = () => {
 
   const navigate = useNavigate();
   const baseUrl = "http://127.0.0.1:5000";
-  axios.defaults.withCredentials = true;
+  const { clientToken } = useSelector((store) => store.client);
 
   const capitalize = (word) => {
     const lower = word.toLowerCase();
@@ -43,13 +43,13 @@ const CreateMenu = () => {
     const config = {
       headers: {
         "content-type": "multipart/form-data",
+        Authorization: `Bearer ${clientToken}`,
       },
     };
     await axios
       .post(`${baseUrl}/api/restaurants/addmenu`, formData, config)
       .then((res) => {
         console.log("success");
-        console.log(res.data);
         reset();
         navigate("/");
       })

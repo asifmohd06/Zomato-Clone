@@ -20,10 +20,10 @@ const App = () => {
 
   const getData = async () => {
     setLoading(true);
-    if (localToken !== "undefined") {
+    if (localToken) {
       const config = { headers: { Authorization: `Bearer ${localToken}` } };
       await axios
-        .post(`${baseUrl}/api/clients/auth`, config)
+        .post(`${baseUrl}/api/clients/auth`, {}, config)
         .then((res) => {
           if (res.data.success) {
             dispatch(setClientToken(localToken));

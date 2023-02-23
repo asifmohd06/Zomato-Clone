@@ -30,7 +30,7 @@ const Header = () => {
       },
     };
     await axios
-      .post(`${baseUrl}/api/clients/logout`, config)
+      .post(`${baseUrl}/api/clients/logout`, {}, config)
       .then((resp) => {
         if (resp.data.success) {
           dispatch(resetUser());
