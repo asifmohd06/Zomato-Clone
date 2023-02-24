@@ -15,7 +15,7 @@ const CreateMenu = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const baseUrl = "https://zomato06.onrender.com";
+  // const baseUrl = "https://zomato06.onrender.com";
   axios.defaults.withCredentials = true;
 
   const capitalize = (word) => {
@@ -46,7 +46,7 @@ const CreateMenu = () => {
       },
     };
     await axios
-      .post(`${baseUrl}/api/restaurants/addmenu`, formData, config)
+      .post(`/api/restaurants/addmenu`, formData, config)
       .then((res) => {
         console.log("success");
         console.log(res.data);

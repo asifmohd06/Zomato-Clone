@@ -13,11 +13,11 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   axios.defaults.withCredentials = true;
-  const baseUrl = "https://zomato06.onrender.com";
+  // const baseUrl = "https://zomato06.onrender.com";
   const getData = async () => {
     setLoading(true);
     await axios
-      .post(`${baseUrl}/api/clients/auth`, {
+      .post(`/api/clients/auth`, {
         withCredentials: true,
       })
       .then((res) => {

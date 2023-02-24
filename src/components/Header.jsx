@@ -20,7 +20,7 @@ const Header = () => {
   const { city } = useSelector((store) => store.user);
   const { userName, clientId } = useSelector((store) => store.client);
 
-  const baseUrl = "https://zomato06.onrender.com";
+  // const baseUrl = "https://zomato06.onrender.com";
   const navigate = useNavigate();
 
   const logout = async () => {
@@ -31,7 +31,7 @@ const Header = () => {
     };
     console.log("before axios");
     await axios
-      .post(`${baseUrl}/api/clients/logout`, config)
+      .post(`/api/clients/logout`, config)
       .then((resp) => {
         console.log("called");
         console.log(resp);

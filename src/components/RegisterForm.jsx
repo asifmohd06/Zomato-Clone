@@ -23,7 +23,7 @@ const RegisterForm = () => {
 
   const errorMsgStyle = " text-red-700 tracking-wide md:w-[30rem] ";
 
-  const baseUrl = "https://zomato06.onrender.com";
+  // const baseUrl = "https://zomato06.onrender.com";
 
   const submitForm = async (data) => {
     const config = {
@@ -34,7 +34,7 @@ const RegisterForm = () => {
       },
     };
     await axios
-      .post(`${baseUrl}/api/clients/register`, data, config)
+      .post(`/api/clients/register`, data, config)
       .then((res) => {
         if (res.data.success) {
           dispatch(setClientId(res.data._id));

@@ -18,7 +18,7 @@ const RestaurantCreateForm = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const baseUrl = "https://zomato06.onrender.com";
+  // const baseUrl = "https://zomato06.onrender.com";
 
   const dispatch = useDispatch();
 
@@ -50,7 +50,7 @@ const RestaurantCreateForm = () => {
       },
     };
     await axios
-      .post(`${baseUrl}/api/restaurants/add`, formData, config)
+      .post(`/api/restaurants/add`, formData, config)
       .then((res) => {
         if (res.data.success) {
           reset();
