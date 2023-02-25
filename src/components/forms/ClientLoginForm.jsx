@@ -3,13 +3,13 @@ import HeaderBasic from "./HeaderBasic";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { inputStyle, errorMsgStyle, labelStyle } from "./styles";
+import { useDispatch } from "react-redux";
 import {
   setClientToken,
   setEmail,
   setUserName,
 } from "./features/clients/clientsSlice";
+
 const ClientLoginForm = () => {
   const {
     register,
@@ -25,7 +25,7 @@ const ClientLoginForm = () => {
 
   const errorMsgStyle = " text-red-700 tracking-wide w-[20rem] md:w-[25rem] ";
 
-  const baseUrl = "https://zomato06.onrender.com";
+  const baseUrl = "http://127.0.0.1:5000";
 
   const submitForm = async (data) => {
     const config = {

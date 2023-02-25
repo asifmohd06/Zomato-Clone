@@ -6,26 +6,26 @@ import { useSelector } from "react-redux";
 import NotFound from "./NotFound";
 
 const Main = () => {
-  const { clientId } = useSelector((store) => store.client);
+  const { clientToken } = useSelector((store) => store.client);
 
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route
         path="/addrestaurant"
-        element={clientId ? <RestaurantCreateForm /> : <ClientLoginForm />}
+        element={clientToken ? <RestaurantCreateForm /> : <ClientLoginForm />}
       />
       <Route
         path="/createmenu"
-        element={clientId ? <CreateMenu /> : <ClientLoginForm />}
+        element={clientToken ? <CreateMenu /> : <ClientLoginForm />}
       />
       <Route
         path="/clients/register"
-        element={clientId ? <Home /> : <RegisterForm />}
+        element={clientToken ? <Home /> : <RegisterForm />}
       />
       <Route
         path="/clients/login"
-        element={clientId ? <Home /> : <ClientLoginForm />}
+        element={clientToken ? <Home /> : <ClientLoginForm />}
       />
       <Route path="*" element={<NotFound />} />
     </Routes>
