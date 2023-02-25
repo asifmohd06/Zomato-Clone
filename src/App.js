@@ -15,7 +15,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
-  const baseUrl = "http://127.0.0.1:5000";
+  const baseUrl = process.env.BASE_URL;
   const localToken = window.localStorage.getItem("clientToken");
 
   const getData = async () => {

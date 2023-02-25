@@ -28,7 +28,7 @@ const RegisterForm = () => {
 
   const errorMsgStyle = " text-red-700 tracking-wide w-[20rem] md:w-[25rem] ";
 
-  const baseUrl = "http://127.0.0.1:5000";
+  const baseUrl = process.env.BASE_URL;
 
   const submitForm = async (data) => {
     const config = {

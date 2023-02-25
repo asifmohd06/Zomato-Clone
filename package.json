@@ -44,6 +44,5 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.2.4"
-  },
-  "proxy":"https://zomato06.onrender.com"
+  }
 }

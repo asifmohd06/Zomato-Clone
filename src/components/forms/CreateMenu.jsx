@@ -15,7 +15,7 @@ const CreateMenu = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const baseUrl = "http://127.0.0.1:5000";
+  const baseUrl = process.env.BASE_URL;
   const { clientToken } = useSelector((store) => store.client);
 
   const capitalize = (word) => {
