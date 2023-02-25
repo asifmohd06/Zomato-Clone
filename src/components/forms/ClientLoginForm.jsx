@@ -44,6 +44,8 @@ const ClientLoginForm = () => {
           dispatch(setEmail(resp.data.email));
           reset();
           navigate("/");
+        } else if (!resp.data.success) {
+          setserverError(resp.data.error);
         } else {
           navigate("/clients/login");
         }
