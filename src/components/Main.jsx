@@ -1,6 +1,11 @@
 import React from "react";
-import { Home, RestaurantCreateForm, CreateMenu, RegisterForm } from "./";
-import ClientLoginForm from "./ClientLoginForm";
+import { Home } from "./";
+import {
+  RestaurantCreateForm,
+  CreateMenu,
+  RegisterForm,
+  ClientLoginForm,
+} from "./forms";
 import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NotFound from "./NotFound";

@@ -4,11 +4,11 @@ import {
   setClientToken,
   setEmail,
   setUserName,
-} from "./features/clients/clientsSlice";
+} from "../features/clients/clientsSlice";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import HeaderBasic from "./HeaderBasic";
+import HeaderBasic from "../HeaderBasic";
 const RegisterForm = () => {
   const {
     register,

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import HeaderBasic from "./HeaderBasic";
+import HeaderBasic from "../HeaderBasic";
 
 const RestaurantCreateForm = () => {
   const navigate = useNavigate();

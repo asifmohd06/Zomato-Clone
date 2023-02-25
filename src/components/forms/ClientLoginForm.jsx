@@ -1,5 +1,5 @@
 import axios from "axios";
-import HeaderBasic from "./HeaderBasic";
+import HeaderBasic from "../HeaderBasic";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import {
   setClientToken,
   setEmail,
   setUserName,
-} from "./features/clients/clientsSlice";
+} from "../features/clients/clientsSlice";
 
 const ClientLoginForm = () => {
   const {
