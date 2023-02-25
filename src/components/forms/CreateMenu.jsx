@@ -15,7 +15,7 @@ const CreateMenu = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const baseUrl = "https://zomato06.onrender.com";
+  const baseUrl = "http://localhost:5000";
   const { clientToken } = useSelector((store) => store.client);
 
   const capitalize = (word) => {
@@ -116,7 +116,7 @@ const CreateMenu = () => {
                     id="category"
                   >
                     <option>Veg</option>
-                    <option>Non veg</option>
+                    <option>Non-veg</option>
                   </select>
                 </div>
                 {errors.category?.type === "required" && (

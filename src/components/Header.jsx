@@ -20,7 +20,7 @@ const Header = () => {
   const { city } = useSelector((store) => store.user);
   const { userName, clientToken } = useSelector((store) => store.client);
 
-  const baseUrl = "https://zomato06.onrender.com";
+  const baseUrl = "http://localhost:5000";
   const navigate = useNavigate();
 
   const logout = async () => {
