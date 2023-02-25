@@ -16,7 +16,7 @@ const RestaurantCreateForm = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const baseUrl = process.env.BASE_URL;
+  const baseUrl = "https://zomato06.onrender.com";
   const { clientToken } = useSelector((store) => store.client);
   const dispatch = useDispatch();
 

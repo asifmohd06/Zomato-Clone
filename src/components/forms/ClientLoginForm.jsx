@@ -25,7 +25,7 @@ const ClientLoginForm = () => {
 
   const errorMsgStyle = " text-red-700 tracking-wide w-[20rem] md:w-[25rem] ";
 
-  const baseUrl = process.env.BASE_URL;
+  const baseUrl = "https://zomato06.onrender.com";
 
   const submitForm = async (data) => {
     const config = {

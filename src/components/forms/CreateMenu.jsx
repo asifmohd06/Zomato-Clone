@@ -15,7 +15,7 @@ const CreateMenu = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const baseUrl = process.env.BASE_URL;
+  const baseUrl = "https://zomato06.onrender.com";
   const { clientToken } = useSelector((store) => store.client);
 
   const capitalize = (word) => {
