@@ -15,7 +15,8 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
-  const baseUrl = "http://localhost:5000";
+  const baseUrl = "https://zomato06.onrender.com";
+  // "http://localhost:5000"
   // "https://zomato06.onrender.com"
   const localToken = window.localStorage.getItem("clientToken");
 
