@@ -6,6 +6,7 @@ import {
   RegisterForm,
   ClientLoginForm,
 } from "./forms";
+import ClientsHome from "./clients/ClientsHome";
 import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NotFound from "./NotFound";
@@ -31,6 +32,10 @@ const Main = () => {
       <Route
         path="/clients/login"
         element={clientToken ? <Home /> : <ClientLoginForm />}
+      />
+      <Route
+        path="/clients/home"
+        element={clientToken ? <ClientsHome /> : <ClientLoginForm />}
       />
       <Route path="*" element={<NotFound />} />
     </Routes>

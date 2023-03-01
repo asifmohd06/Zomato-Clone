@@ -25,7 +25,8 @@ const ClientLoginForm = () => {
 
   const errorMsgStyle = " text-red-700 tracking-wide w-[20rem] md:w-[25rem] ";
 
-  const baseUrl = "https://zomato06.onrender.com";
+  // const baseUrl = "https://zomato06.onrender.com";
+  const baseUrl = "http://localhost:5000";
 
   const submitForm = async (data) => {
     const config = {
@@ -47,7 +48,7 @@ const ClientLoginForm = () => {
         } else if (!resp.data.success) {
           setserverError(resp.data.error);
         } else {
-          navigate("/clients/login");
+          navigate("/clients/home");
         }
       })
       .catch((err) => {
