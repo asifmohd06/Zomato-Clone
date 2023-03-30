@@ -32,7 +32,7 @@ const Carousel = ({ images }) => {
   }, [currentIndex]);
 
   return (
-    <div className="w-full h-[20rem] relative my-4 rounded-md overflow-hidden">
+    <div className="w-full  h-[20rem] relative my-4 rounded-md overflow-hidden">
       {images.map((image, index) => {
         // let position = "";
         // if (index === currentIndex) {
@@ -62,21 +62,23 @@ const Carousel = ({ images }) => {
             className={`absolute  transition-transform duration-500  h-[100%] w-[100%] object-cover object-center ${position}`}
             src={image.url}
             alt=""
+            key={index}
           />
         );
       })}
       <button
         className=" absolute top-0 bottom-0 left-1"
         onClick={() => setCurrentIndex(checkPrevIndex(currentIndex))}
+        tabIndex={3}
       >
-        <GrFormPrevious size="3rem" />
+        <GrFormPrevious size="48px" />
       </button>
       <button
         className=" absolute top-0 bottom-0 right-1"
         onClick={() => setCurrentIndex(checkNextIndex(currentIndex))}
-        color="#7843db"
+        tabIndex={4}
       >
-        <GrFormNext size="3rem" />
+        <GrFormNext size="48px" />
       </button>
     </div>
   );

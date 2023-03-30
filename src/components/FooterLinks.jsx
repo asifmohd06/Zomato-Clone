@@ -12,7 +12,7 @@ const FooterLinks = () => {
           <li>Who We Are</li>
           <li>Blog</li>
           <li>
-            <a href="">Work With Us</a>
+            <a href="/clients/home">Work With Us</a>
           </li>
           <li>Contact Us</li>
         </ul>

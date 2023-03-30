@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -13,6 +14,11 @@ module.exports = {
         menu2: "url(/public/bgMenu2.jpg)",
         menu3: "url(/public/bgMenu3.jpg)",
       },
+    },
+    screens: {
+      xsmall: "380px",
+      mobile: "500px",
+      ...defaultTheme.screens,
     },
   },
   plugins: [],

@@ -37,6 +37,10 @@ const Main = () => {
         path="/clients/home"
         element={clientToken ? <ClientsHome /> : <ClientLoginForm />}
       />
+      <Route
+        path="/clients/restaurants/:id/menu/:menuId/edit"
+        element={clientToken ? <CreateMenu /> : <ClientLoginForm />}
+      />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

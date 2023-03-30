@@ -6,7 +6,7 @@ const HeaderBasic = ({ location }) => {
   return (
     <div className=" py-4 bg-[#1f1e1e] flex items-center justify-between  pl-5 pr-8 ">
       <Link to={"/"}>
-        <img className="w-[9rem]" src={logo} alt="" />
+        <img className="w-[9rem]" src={logo} alt="" tabIndex={1} />
       </Link>
       <ul>
         <li className=" text-white text-2xl tracking-wide">
@@ -18,6 +18,7 @@ const HeaderBasic = ({ location }) => {
                 ? "/clients/login"
                 : "/"
             }
+            tabIndex={2}
           >
             {location === "loginPage"
               ? "Register"
