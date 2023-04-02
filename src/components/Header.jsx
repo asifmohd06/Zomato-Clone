@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import background from "../images/background.avif";
 import logo from "../images/mainlogo.avif";
 import { location, locationDropdownArrow, Searchicon } from "../icons";
 import SearchBarPopupMenu from "./SearchBarPopupMenu";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleSearchbar } from "./features/header/headerSlice";
 import {
   setEmail,
   setUserName,
@@ -16,14 +15,33 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { isSearchbarOpen } = useSelector((store) => store.header);
   const { city } = useSelector((store) => store.user);
   const { userName, clientToken } = useSelector((store) => store.client);
+  const [isDropDown, setIsDropDown] = useState(false);
+  const [query, setQuery] = useState("");
+  const [data, setData] = useState("");
 
   // const baseUrl = "https://zomato06.onrender.com";
   const baseUrl = "http://localhost:5000";
 
   const navigate = useNavigate();
+  const handleClick = () => {
+    setIsDropDown(false);
+  };
+  const getLocation = async (value) => {
+    await axios
+      .post(`${baseUrl}/api/cities`, { query: value })
+      .then((res) => {
+        if (res.data.success) {
+          setData(res.data.locations);
+          console.log(res.data.locations);
+        }
+      })
+      .catch((err) => console.log("err"));
+  };
+  useEffect(() => {
+    query.length > 0 && getLocation(query);
+  }, [query]);
 
   const logout = async () => {
     const config = {
@@ -87,13 +105,17 @@ const Header = () => {
         <div className="mt-8 w-fit mx-auto flex px-4 relative">
           <div
             className="relative px-6 bg-white  rounded-l-md"
-            onClick={() => dispatch(toggleSearchbar())}
+            onClick={() => {
+              setIsDropDown(true);
+            }}
           >
             {location}
             <input
               type="text"
               placeholder="Location"
-              className=" h-12 w-[25vw] md:w-[10em] pl-4  outline-none"
+              className=" h-12 w-[25vw] md:w-[10em] pl-4  outline-none text-gray-600"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
             {locationDropdownArrow}
           </div>
@@ -109,7 +131,13 @@ const Header = () => {
               className=" h-12 w-[25vw] md:w-[23em] outline-none pl-4"
             />
           </div>
-          {isSearchbarOpen && <SearchBarPopupMenu />}
+          {isDropDown && (
+            <SearchBarPopupMenu
+              handleClick={handleClick}
+              setIsDropDown={setIsDropDown}
+              data={data}
+            />
+          )}
         </div>
       </div>
     </section>

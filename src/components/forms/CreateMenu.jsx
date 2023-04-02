@@ -78,7 +78,6 @@ const CreateMenu = () => {
       : await axios
           .post(`${baseUrl}/api/restaurants/addmenu`, formData, config)
           .then((res) => {
-            console.log(res.data);
             if (res.data.success) {
               reset();
               navigate("/clients/home");

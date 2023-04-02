@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import HeaderBasic from "../HeaderBasic";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -8,6 +8,8 @@ import Carousel from "./Carousel";
 import { Drinks, Maincourse, Rice, Starter, Pizza } from "../../images/menu";
 import { Link } from "react-router-dom";
 import { MdMoreVert } from "react-icons/md";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
+
 // import Rice from "../../images/menu/rice.svg";
 
 const ClientsHome = () => {
@@ -56,6 +58,13 @@ const ClientsHome = () => {
     setTargetMenu(menu);
     setIsConfirmationPopup(!value);
   };
+  const handleClickOutside = () => {
+    setIsEditButtonClicked(false);
+  };
+  const ref = useOutsideClick(handleClickOutside);
+  const handleClick = (event) => {
+    event.stopPropagation();
+  };
 
   const deleteItem = async (id) => {
     if (localToken) {
@@ -72,6 +81,7 @@ const ClientsHome = () => {
           if (res.data.success) {
             setMessage(res.data.message);
             setIsConfirmationPopup(false);
+            setRestaurant(res.data.targetRes);
           } else {
             setMessage(res.data.message);
             setIsConfirmationPopup(false);
@@ -95,6 +105,13 @@ const ClientsHome = () => {
     pizza: Pizza,
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setMessage(false);
+    }, 4000);
+    return () => clearTimeout(timeout);
+  }, [message]);
+
   return (
     <div>
       {loading ? (
@@ -105,7 +122,7 @@ const ClientsHome = () => {
           {restaurant && (
             <>
               <HeaderBasic />
-              <div className="bg-[#ebf9fa88] relative">
+              <div className="bg-[#ebf9fa88] relative" onClick={handleClick}>
                 <div className="max-w-[1100px] mx-5 lg:mx-auto text-left py-4 my-4">
                   {isConfirmationPopup && (
                     <div className="fixed flex justify-center items-center z-10 top-0 bottom-0 my-auto left-0 right-0 mx-auto  bg-[#0000005a] ">
@@ -238,9 +255,13 @@ const ClientsHome = () => {
                                     )
                                   }
                                 />
+                                {/* more options */}
                                 {isEditButtonClicked &&
                                   targetMenuId === menu._id && (
-                                    <div className=" absolute flex flex-wrap flex-col top-[50%] left-8 z-[4] w-20 h-fit px-2 py-3 bg-white rounded-md border-2 shadow-lg items-start gap-2">
+                                    <div
+                                      className=" absolute flex flex-wrap flex-col top-[50%] left-8 z-[4] w-20 h-fit px-2 py-3 bg-white rounded-md border-2 shadow-lg items-start gap-2"
+                                      ref={ref}
+                                    >
                                       {/* text-sm md:text-lg font-medium my-auto */}
                                       <p className="  hover:cursor-pointer">
                                         <a
