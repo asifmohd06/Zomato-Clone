@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import footerLogo from "../images/footerlogo.avif";
-import { Countrydropdown } from "../icons";
-import countries from "../images/countries";
-import Countriesmenu from "./Countriesmenu";
+import footerLogo from "../../images/footerlogo.avif";
+import { Countrydropdown } from "../../icons";
+import countries from "../../images/countries";
+import Countriesmenu from "../Countriesmenu";
 import FooterLinks from "./FooterLinks";
 
 const Footer = () => {

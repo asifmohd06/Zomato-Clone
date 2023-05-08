@@ -76,7 +76,7 @@ const CreateMenu = () => {
             setIsLoading(false);
           })
       : await axios
-          .post(`${baseUrl}/api/restaurants/addmenu`, formData, config)
+          .post(`${baseUrl}/api/clients/restaurants/addmenu`, formData, config)
           .then((res) => {
             if (res.data.success) {
               reset();

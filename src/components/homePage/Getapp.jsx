@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import phone from "../images/getapp.avif";
-import playstore from "../images/playstore.webp";
-import appstore from "../images/appstore.webp";
+import phone from "../../images/getapp.avif";
+import playstore from "../../images/playstore.webp";
+import appstore from "../../images/appstore.webp";
 
 // #FFFBF7
 const Getapp = () => {

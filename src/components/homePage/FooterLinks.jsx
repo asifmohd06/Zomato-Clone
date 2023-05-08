@@ -1,7 +1,8 @@
 import React from "react";
-import { linkedin, twitter, insta, youtube, facebook } from "../icons";
-import playstore from "../images/playstore.webp";
-import appstore from "../images/appstore.webp";
+import { Link } from "react-router-dom";
+import { linkedin, twitter, insta, youtube, facebook } from "../../icons";
+import playstore from "../../images/playstore.webp";
+import appstore from "../../images/appstore.webp";
 
 const FooterLinks = () => {
   return (
@@ -12,7 +13,7 @@ const FooterLinks = () => {
           <li>Who We Are</li>
           <li>Blog</li>
           <li>
-            <a href="/clients/home">Work With Us</a>
+            <Link to="/clients/home">Work With Us</Link>
           </li>
           <li>Contact Us</li>
         </ul>

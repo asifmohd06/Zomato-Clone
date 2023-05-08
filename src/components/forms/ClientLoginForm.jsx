@@ -1,68 +1,38 @@
-import axios from "axios";
 import HeaderBasic from "../HeaderBasic";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import {
-  setClientToken,
-  setEmail,
-  setUserName,
-} from "../features/clients/clientsSlice";
+import { Link } from "react-router-dom";
+import { useClientLogin } from "../../hooks/useClientLogin";
 
 const ClientLoginForm = () => {
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isLoading },
   } = useForm();
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [serverError, setserverError] = useState("");
+  const [serverError, setServerError] = useState(false);
 
   const errorMsgStyle = " text-red-700 tracking-wide w-[20rem] md:w-[25rem] ";
 
-  // const baseUrl = "https://zomato06.onrender.com";
-  const baseUrl = "http://localhost:5000";
-
-  const submitForm = async (data) => {
-    const config = {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    };
-    await axios
-      .post(`${baseUrl}/api/clients/login`, data, config)
-      .then((resp) => {
-        if (resp.data.isAlreadyLoggedIn === false) {
-          window.localStorage.setItem("clientToken", resp.data.token);
-          dispatch(setClientToken(resp.data.token));
-          dispatch(setUserName(resp.data.username));
-          dispatch(setEmail(resp.data.email));
-          reset();
-          navigate("/");
-        } else if (!resp.data.success) {
-          setserverError(resp.data.error);
-        } else {
-          navigate("/clients/home");
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+  const setError = (responseError) => {
+    setServerError(responseError);
   };
+  const { submitForm } = useClientLogin(setError, reset);
+
+  const submitFormData = (formdata) => {
+    submitForm(formdata);
+  };
+
   useEffect(() => {
+    // this is the error
+    console.log(serverError);
     const timeOut = setTimeout(() => {
-      setserverError(false);
+      setServerError(false);
     }, 3000);
     return () => clearTimeout(timeOut);
   }, [serverError]);
+
   return (
     <div className="bg-formBg3 bg-no-repeat bg-cover  bg-center min-h-[100vh] pb-2">
       <HeaderBasic location={"loginPage"} />
@@ -73,7 +43,7 @@ const ClientLoginForm = () => {
           </h1>
           <div className="mt-8">
             <form
-              onSubmit={handleSubmit(submitForm)}
+              onSubmit={handleSubmit(submitFormData)}
               className="grid gap-3 mt-10 justify-center"
             >
               <div className="relative z-0 w-full mt-8 group">
@@ -125,7 +95,12 @@ const ClientLoginForm = () => {
 
               <button
                 type="submit"
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-[600]  rounded-lg  text-center py-2 mx-auto w-[5rem]"
+                disabled={!isLoading}
+                className={`text-white   rounded-lg  text-center py-2 mx-auto w-[5rem] ${
+                  !isLoading
+                    ? "bg-gray-600"
+                    : "bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-[600]"
+                }`}
               >
                 SIGN IN
               </button>

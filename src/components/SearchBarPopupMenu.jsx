@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setCity } from "./features/user/userSlice";
 import { useOutsideClick } from "../hooks/useOutsideClick";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const SearchBarPopupMenu = ({ handleClick, setIsDropDown, data }) => {
-  const dispatch = useDispatch();
-  const setCityandClose = (e) => {
-    dispatch(setCity(e.target.textContent));
+  const navigate = useNavigate();
+  const redirect = (id) => {
+    navigate(`/location/${id}`);
   };
 
   const ref = useOutsideClick(handleClick);
@@ -17,10 +15,10 @@ const SearchBarPopupMenu = ({ handleClick, setIsDropDown, data }) => {
       onClick={() => setIsDropDown(false)}
     >
       {data &&
-        data.map((city, index) => [
+        data.data.locations.map((city, index) => [
           <div
             className=" border-b-2 tracking-wide text-gray-500 hover:bg-[#F8F8F8] cursor-pointer text-left px-6"
-            onClick={(e) => setCityandClose(e)}
+            onClick={() => redirect(city._id)}
             key={index}
           >
             <h2 className="py-4 ">{city.name}</h2>

@@ -1,7 +1,7 @@
 import React from "react";
-import { cuisines, restaurants, cities } from "../data";
-import CitiesDropdown from "./CitiesDropdown";
-import ExploreDropdown from "./ExploreDropdown";
+import { cuisines, restaurants, cities } from "../../data";
+import CitiesDropdown from "../CitiesDropdown";
+import ExploreDropdown from "../ExploreDropdown";
 
 const Options = () => {
   return (

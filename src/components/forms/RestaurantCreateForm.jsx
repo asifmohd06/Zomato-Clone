@@ -1,74 +1,78 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import HeaderBasic from "../HeaderBasic";
-
+import { useResDetailForm } from "../../hooks/useResDetailForm";
+import { useCreateRestaurant } from "../../hooks/useCreateRestaurant";
+import { useEditRestaurant } from "../../hooks/useEditRestaurant";
 const RestaurantCreateForm = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState(false);
+  const { clientToken } = useSelector((store) => store.client);
+
+  const { id } = useParams();
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    setValue,
+    formState: { errors, isLoading },
   } = useForm();
   // const baseUrl = "https://zomato06.onrender.com";
-  const baseUrl = "http://localhost:5000";
 
-  const { clientToken } = useSelector((store) => store.client);
-  const dispatch = useDispatch();
+  //****************for fetching restaurant data ********//
+  //add thid func to defailt value of useformm
+  const { data: resData, isFetched } = useResDetailForm(id);
+  if (isFetched) {
+    setValue("name", resData?.data?.restaurant.name);
+    setValue("city", resData?.data?.restaurant.city);
+    setValue("category", resData?.data?.restaurant.category);
+  }
+  /******************/
 
   useEffect(() => {
+    //for showing server error message
     const timeOut = setTimeout(() => {
       setServerError(false);
     }, 3000);
     return () => clearTimeout(timeOut);
   }, [serverError]);
 
-  const capitalize = (word) => {
-    const lower = word.toLowerCase();
-    return word.charAt(0).toUpperCase() + lower.slice(1);
+  //********for Creating new restaurant********//
+
+  const onError = () => {
+    setServerError("oops ! Something went wrong");
+  };
+  const { formSubmit } = useCreateRestaurant(clientToken, onError);
+
+  //*********for editing restaurant*********//
+
+  const onEditError = () => {
+    console.log(editResError);
   };
 
-  const formSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("name", data.name); //string
-    formData.append("city", data.city); //string
-    formData.append("category", data.category); //string
+  const {
+    editFormSubmit,
+    isLoading: editResIsLoading,
+    isError: editResIsError,
+    error: editResError,
+  } = useEditRestaurant(id, clientToken, onEditError);
+  //*****************//
 
-    for (const key of Object.keys(data.image)) {
-      formData.append("image", data.image[key]);
-    }
-
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-        Authorization: `Bearer ${clientToken}`,
-      },
-    };
-    await axios
-      .post(`${baseUrl}/api/restaurants/add`, formData, config)
-      .then((res) => {
-        if (res.data.success) {
-          reset();
-          navigate("/createmenu");
-        } else if (!res.data.success) {
-          setServerError(res.data.message);
-        }
-        // dispatch(saveCityName(res.data));
-        // dispatch(saveRestaurantId(res.data));
-      })
-      .catch((err) => console.log(err));
-    setIsLoading(false);
+  const submitForm = (data) => {
+    // const func = id ? editFormSubmit : formSubmit;
+    formSubmit(data).then((result) => {
+      if (result?.data?.success) {
+        navigate("/clients/home");
+      } else {
+        setServerError(result?.data?.message);
+      }
+    });
   };
-
-  const check = () => {
-    if (!errors) setIsLoading(true);
-  };
+  //***************//
 
   const inputStyle =
     "bg-[#12345653]  w-full text-white tracking-wider text-md rounded-lg  border-2 border-gray-300 focus:outline-none focus:border-2 focus:border-[#123456d3]  block  p-2.5";
@@ -77,16 +81,16 @@ const RestaurantCreateForm = () => {
   const errorMsgStyle = " text-red-700 tracking-wide";
 
   return (
-    <div className=" bg-menu1 bg-center bg-no-repeat bg-fixed bg-cover h-[100vh]">
+    <div className=" bg-menu1 bg-center bg-no-repeat bg-fixed bg-cover min-h-[100vh] pb-4">
       <HeaderBasic />
       <div className=" px-4">
         <div className=" max-w-[800px] min-h-[600px]  py-6 px-[3rem] md:px-[5rem]  bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-100   mx-auto mt-8 rounded-lg shadow-lg ">
           <h1 className=" text-3xl text-center mt-12 font-semibold tracking-wider">
-            Create Restaurant
+            {id ? "Edit Restaurant" : "Create Restaurant"}
           </h1>
           <form
             className="grid grid-cols-2 gap-3 mt-10"
-            onSubmit={handleSubmit(formSubmit)}
+            onSubmit={handleSubmit(id ? editFormSubmit : submitForm)}
           >
             <div className=" col-span-2">
               <label htmlFor="name" className={labelStyle}>
@@ -174,17 +178,29 @@ const RestaurantCreateForm = () => {
                 />
               </div>
             </div>
+            <div className="col-span-2 flex justify-center gap-12 mx-auto">
+              <button
+                type="submit"
+                disabled={!isLoading}
+                className={` px-3 py-1 text-white w-fit mx-auto rounded-md  shadow-lg my-3 outline-none  ${
+                  !isLoading ? "bg-gray-500" : "bg-blue-500  hover:bg-blue-600"
+                } `}
+              >
+                Submit
+              </button>
+              {id && (
+                <button
+                  onClick={() => console.log("clicked")}
+                  disabled={!isLoading}
+                  className={` px-3 py-1 text-white w-fit mx-auto rounded-md  shadow-lg my-3 outline-none  ${
+                    !isLoading ? "bg-gray-700" : "bg-red-600  hover:bg-red-700"
+                  } `}
+                >
+                  Delete
+                </button>
+              )}
+            </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              onClick={() => check()}
-              className={`col-span-2 px-3 py-1 text-white w-fit mx-auto rounded-md  shadow-lg my-3 outline-none  ${
-                isLoading ? "bg-gray-500" : "bg-blue-500  hover:bg-blue-600"
-              } `}
-            >
-              Submit
-            </button>
             {serverError && (
               <section className=" col-span-2  w-[15rem] mx-auto px-2 md:w-[30rem] py-4 bg-[#f4848481]  rounded-lg border-[1px] tracking-wide font-[600] text-red-900 border-red-700 flex justify-center text-center">
                 <p>{serverError}</p>

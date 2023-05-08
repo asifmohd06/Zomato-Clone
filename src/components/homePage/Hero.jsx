@@ -1,6 +1,6 @@
 import React from "react";
-import orderimg from "../images/orderonline.avif";
-import { rightArrow } from "../icons";
+import orderimg from "../../images/orderonline.avif";
+import { rightArrow } from "../../icons";
 
 const Hero = () => {
   return (

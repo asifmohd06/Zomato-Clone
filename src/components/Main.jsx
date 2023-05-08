@@ -1,15 +1,16 @@
 import React from "react";
-import { Home } from "./";
+import { Home } from "./homePage";
 import {
   RestaurantCreateForm,
   CreateMenu,
   RegisterForm,
   ClientLoginForm,
 } from "./forms";
+import NotFound from "./NotFound";
+import { useSelector } from "react-redux";
+import LocationSearchResultPage from "./LocationSearchResultPage";
 import ClientsHome from "./clients/ClientsHome";
 import { Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
-import NotFound from "./NotFound";
 
 const Main = () => {
   const { clientToken } = useSelector((store) => store.client);
@@ -17,8 +18,13 @@ const Main = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/location/:id" element={<LocationSearchResultPage />} />
       <Route
         path="/addrestaurant"
+        element={clientToken ? <RestaurantCreateForm /> : <ClientLoginForm />}
+      />
+      <Route
+        path="/editrestaurant/:id"
         element={clientToken ? <RestaurantCreateForm /> : <ClientLoginForm />}
       />
       <Route

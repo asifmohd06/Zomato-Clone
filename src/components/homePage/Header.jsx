@@ -1,68 +1,57 @@
+import logo from "../../images/mainlogo.avif";
+import background from "../../images/background.avif";
 import React, { useState, useEffect } from "react";
-import background from "../images/background.avif";
-import logo from "../images/mainlogo.avif";
-import { location, locationDropdownArrow, Searchicon } from "../icons";
-import SearchBarPopupMenu from "./SearchBarPopupMenu";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  setEmail,
-  setUserName,
-  resetUser,
-  setClientToken,
-} from "./features/clients/clientsSlice";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import SearchBarPopupMenu from "../SearchBarPopupMenu";
+import { useSelector, useDispatch } from "react-redux";
+import { useGetLocations } from "../../hooks/useGetLocations";
+import { useLogoutClient } from "../../hooks/useLogoutClient";
+import { location, locationDropdownArrow, Searchicon } from "../../icons";
+import { resetUser, setClientToken } from "../features/clients/clientsSlice";
+//react toast
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { city } = useSelector((store) => store.user);
-  const { userName, clientToken } = useSelector((store) => store.client);
-  const [isDropDown, setIsDropDown] = useState(false);
   const [query, setQuery] = useState("");
-  const [data, setData] = useState("");
-
-  // const baseUrl = "https://zomato06.onrender.com";
-  const baseUrl = "http://localhost:5000";
+  const { city } = useSelector((store) => store.user);
+  const [isDropDown, setIsDropDown] = useState(false);
+  // const [message, setMessage] = useState(false);
+  const { userName, clientToken } = useSelector((store) => store.client);
 
   const navigate = useNavigate();
   const handleClick = () => {
     setIsDropDown(false);
   };
-  const getLocation = async (value) => {
-    await axios
-      .post(`${baseUrl}/api/cities`, { query: value })
-      .then((res) => {
-        if (res.data.success) {
-          setData(res.data.locations);
-          console.log(res.data.locations);
-        }
-      })
-      .catch((err) => console.log("err"));
-  };
-  useEffect(() => {
-    query.length > 0 && getLocation(query);
-  }, [query]);
 
-  const logout = async () => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${clientToken}`,
-      },
-    };
-    await axios
-      .post(`${baseUrl}/api/clients/logout`, {}, config)
-      .then((resp) => {
-        if (resp.data.success) {
-          dispatch(resetUser());
-          dispatch(setClientToken(""));
-        }
-        navigate("/");
-      })
-      .catch((err) => console.log("err"));
+  //for searchbar
+  const { mutate, data } = useGetLocations(query);
+  useEffect(() => mutate(), [query]);
+
+  //for logout
+  const onLogoutSuccess = () => {
+    toast.success("Logged out Successfully ", {
+      position: toast.POSITION.TOP_CENTER,
+    }); // setMessage({ success: true, message: "Successfully Logged Out" });
+    dispatch(resetUser());
+    dispatch(setClientToken(""));
   };
+  const onLogouterror = () => {
+    toast.error("Oops, Something went wrong !", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+    // setMessage({ success: false, message: "Oops Something went wrong !" });
+    navigate("/");
+  };
+  const { mutate: logout, isSuccess } = useLogoutClient(
+    clientToken,
+    onLogoutSuccess,
+    onLogouterror
+  );
 
   return (
-    <section className="w-[100%]  text-white  min-h-[27rem] relative">
+    <div className="w-[100%]  text-white  min-h-[27rem] relative">
       <div className=" absolute w-[100%] h-[100%] overflow-hidden z-[-2]">
         <img
           src={background}
@@ -79,6 +68,7 @@ const Header = () => {
             </li>
             {clientToken ? (
               <>
+                <Link to={"/clients/home"}>Client Home</Link>
                 <li>{userName}</li>{" "}
                 <li className=" hover:cursor-pointer" onClick={() => logout()}>
                   Logout
@@ -140,7 +130,7 @@ const Header = () => {
           )}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
