@@ -25,7 +25,7 @@ export const useCreateRestaurant = (clientToken, onError) => {
         },
       };
       return axios.post(
-        `http://localhost:5000/api/clients/restaurants/add`,
+        `https://zomato06.onrender.com/api/clients/restaurants/add`,
         formData,
         config
       );

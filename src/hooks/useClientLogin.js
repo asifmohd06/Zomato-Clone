@@ -14,7 +14,9 @@ import { toast } from "react-toastify";
 export const useClientLogin = (setServerError, reset) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const baseUrl = "http://localhost:5000";
+  // const baseUrl = "http://localhost:5000";
+  const baseUrl = "https://zomato06.onrender.com";
+
   const config = {
     headers: {
       Accept: "application/json",

@@ -8,8 +8,8 @@ import {
   resetUser,
 } from "../components/features/clients/clientsSlice";
 
-// const baseUrl = "https://zomato06.onrender.com";
-const baseUrl = "http://localhost:5000";
+const baseUrl = "https://zomato06.onrender.com";
+// const baseUrl = "http://localhost:5000";
 
 export const useCheckLoginStatus = (localToken) => {
   const dispatch = useDispatch();

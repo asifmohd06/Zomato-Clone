@@ -25,7 +25,7 @@ export const useEditRestaurant = (id, clientToken, onSuccess, onError) => {
         },
       };
       return axios.post(
-        `http://localhost:5000/api/clients/editrestaurant/${id}`,
+        `https://zomato06.onrender.com/api/clients/editrestaurant/${id}`,
         formData,
         config
       );

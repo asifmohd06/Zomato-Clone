@@ -18,7 +18,7 @@ import { Drinks, Maincourse, Rice, Starter, Pizza } from "../../images/menu";
 
 const ClientsHome = () => {
   const [clickedCategory, setClickedCategory] = useState("Rice");
-  const baseUrl = "http://localhost:5000";
+  const baseUrl = "https://zomato06.onrender.com";
   // const [loading, setLoading] = useState(true);
   const [restaurant, setRestaurant] = useState(null);
   const [message, setMessage] = useState({ success: "", message: "" });
