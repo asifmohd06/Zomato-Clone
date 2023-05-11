@@ -9,7 +9,7 @@ import {
 } from "../components/features/clients/clientsSlice";
 import api from "../components/utils/axiosInstance";
 
-export const useCheckLoginStatus = () => {
+export const useCheckLoginStatus = (localToken) => {
   const dispatch = useDispatch();
   const resp = useQuery(
     "check-login-status",
