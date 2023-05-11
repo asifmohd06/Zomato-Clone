@@ -8,12 +8,14 @@ export const useEditRestaurant = (id, clientToken, onSuccess, onError) => {
     isLoading,
     isError,
     error,
+    isSuccess: iseditSuccess,
   } = useMutation(
     (data) => {
       const formData = new FormData();
       formData.append("name", data.name); //string
       formData.append("city", data.city); //string
       formData.append("category", data.category); //string
+      formData.append("imagesToDelete", data.imagesToDelete);
 
       for (const key of Object.keys(data.image)) {
         formData.append("image", data.image[key]);
@@ -41,5 +43,12 @@ export const useEditRestaurant = (id, clientToken, onSuccess, onError) => {
       console.log(error);
     }
   };
-  return { editFormSubmit, responseData, isLoading, isError, error };
+  return {
+    editFormSubmit,
+    responseData,
+    iseditSuccess,
+    isLoading,
+    isError,
+    error,
+  };
 };

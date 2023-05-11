@@ -1,10 +1,11 @@
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import HeaderBasic from "../HeaderBasic";
 import Loading from "../Loading";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const CreateMenu = () => {
   const {
@@ -19,17 +20,11 @@ const CreateMenu = () => {
   const [isMenuLoading, setIsMenuLoading] = useState(true);
   const [targetMenu, setTargetMenu] = useState("");
   const { id, menuId } = useParams();
+  let [color, setColor] = useState("#ffffff");
 
   const navigate = useNavigate();
-  // const baseUrl = "https://zomato06.onrender.com";
-  const baseUrl = "http://localhost:5000";
-
   const { clientToken } = useSelector((store) => store.client);
 
-  const capitalize = (word) => {
-    const lower = word.toLowerCase();
-    return word.charAt(0).toUpperCase() + lower.slice(1);
-  };
   // sending data to server
   const formSubmit = async (data) => {
     const formData = new FormData();
@@ -56,14 +51,13 @@ const CreateMenu = () => {
       },
     };
     id
-      ? await axios
+      ? await api
           .put(
-            `${baseUrl}/api/clients/restaurants/${id}/editmenu/${menuId}`,
+            `/clients/restaurants/${id}/editmenu/${menuId}`,
             formData,
             config
           )
           .then((res) => {
-            console.log(res.data);
             if (!res.data.success) {
               return setServerError(res.data.message);
             }
@@ -71,12 +65,11 @@ const CreateMenu = () => {
             navigate("/clients/home");
           })
           .catch((err) => {
-            // console.log(err.message);
             setServerError("Something Went Wrong");
             setIsLoading(false);
           })
-      : await axios
-          .post(`${baseUrl}/api/clients/restaurants/addmenu`, formData, config)
+      : await api
+          .post(`/clients/restaurants/addmenu`, formData, config)
           .then((res) => {
             if (res.data.success) {
               reset();
@@ -97,11 +90,8 @@ const CreateMenu = () => {
         Authorization: `Bearer ${clientToken}`,
       },
     };
-    await axios
-      .get(
-        `${baseUrl}/api/clients/restaurants/${id}/menu/${menuId}/details`,
-        config
-      )
+    await api
+      .get(`/clients/restaurants/${id}/menu/${menuId}/details`, config)
       .then((res) => {
         if (!res.data.success) {
           return setServerError(res.data.message);
@@ -146,14 +136,14 @@ const CreateMenu = () => {
           <div className="px-4">
             <div className=" max-w-[800px] min-h-[590px] py-6 px-[3rem] md:px-[5rem]  bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-100   mx-auto mt-8 rounded-lg shadow-lg ">
               <h1 className=" text-3xl tracking-wide text-center">
-                {id ? "Edit Menu" : "Add Menu"}
+                {id ? "Edit Cuisine" : "New Cuisine"}
               </h1>
               <form
                 className="flex flex-col  gap-3 mt-3"
                 onSubmit={handleSubmit(formSubmit)}
               >
                 <label htmlFor="name" className={labelStyle}>
-                  Menu Name
+                  Name
                 </label>
                 <div>
                   <input
@@ -330,7 +320,9 @@ const CreateMenu = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`px-3 py-1 bg-[#363eab] text-white w-fit mx-auto rounded-md hover:bg-[#272d7c] shadow-lg my-3 ${
+                  className={` ${
+                    isSubmitting && "hidden"
+                  } px-3 py-1 bg-[#363eab] text-white w-fit mx-auto rounded-md hover:bg-[#272d7c] shadow-lg my-3 ${
                     isSubmitting
                       ? "bg-gray-700"
                       : "bg-blue-500  hover:bg-blue-600"
@@ -338,6 +330,15 @@ const CreateMenu = () => {
                 >
                   Submit
                 </button>
+                <ClipLoader
+                  color={color}
+                  loading={isSubmitting}
+                  // cssOverride={override}
+                  size={50}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                  className=" col-span-2 mx-auto my-8"
+                />
                 {serverError && (
                   <div className=" text-center text-red-700">{serverError}</div>
                 )}

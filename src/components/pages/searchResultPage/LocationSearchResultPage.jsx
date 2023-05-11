@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetLocationDetail } from "../hooks/useGetLocationDetails";
-import NotFound from "./NotFound";
-import footerlogo from "../images/footerlogo.avif";
+import { useGetLocationDetail } from "../../../hooks/useGetLocationDetails";
+import NotFound from "../../NotFound";
+import footerlogo from "../../../images/footerlogo.avif";
 import { HiLocationMarker } from "react-icons/hi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FiSearch } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
-import Loading from "./Loading";
+import Loading from "../../Loading";
+import RestaurantCards from "./RestaurantCards";
+import { Footer } from "../../homePage";
 
 const LocationDetails = () => {
   const { id } = useParams();
@@ -37,7 +39,7 @@ const LocationDetails = () => {
               <IoCloseSharp size={"26px"} />
             )}
           </button>
-
+          {/* long search bar */}
           <div className=" hidden sm:order-2 sm:flex justify-center items-center border shadow-md rounded-md h-12 w-[800px] gap-2  px-3 py-2 mx-8">
             <div className="flex w-1/3 items-center gap-2">
               <HiLocationMarker
@@ -62,9 +64,36 @@ const LocationDetails = () => {
               />
             </div>
           </div>
+
           <div className="sm:flex gap-4 hidden order-3 flex-shrink-0 text-xl text-gray-500 items-center">
             <a href="">Log in</a>
             <a href="">Sign up</a>
+          </div>
+        </div>
+
+        {/* short search bar */}
+
+        <div className="sm:hidden flex flex-col gap-4 my-4">
+          <div className="flex px-3 items-center w-[80%] mx-auto gap-3 border rounded-md shadow-md h-12 ">
+            <HiLocationMarker
+              className=" flex-shrink-0"
+              color="#ff002fad"
+              size={"24px"}
+            />
+            <input
+              className=" outline-none min-w-[2em] flex-shrink-[1] w-[100%] "
+              placeholder={isSuccess && data?.data?.restaurants?.name}
+              type="text"
+            />
+            <IoMdArrowDropdown className=" flex-shrink-0" size={"24px"} />
+          </div>
+          <div className="flex px-3   items-center gap-3 mx-auto w-[80%] border rounded-md shadow-md h-12">
+            <FiSearch color="#000000b6" size={"24px"} />
+            <input
+              className=" h-8 outline-none w-[100%] "
+              type="text"
+              placeholder="Search for a restaurant, cuisine or dish"
+            />
           </div>
         </div>
         <div
@@ -75,6 +104,21 @@ const LocationDetails = () => {
           <a href="#">Log in</a>
           <a href="#">Sign up</a>
         </div>
+
+        <div className="flex gap-4 max-w-[1100px] mx-auto mt-12">
+          <div className=" w-[8rem] h-10 rounded-md shadow-md border text-gray-500 tracking-wide text-center ">
+            Filters
+          </div>
+          {/* <div className=" w-[8rem] h-10 rounded-md shadow-md border"></div>
+          <div className=" w-[8rem] h-10 rounded-md shadow-md border"></div>
+          <div className=" w-[8rem] h-10 rounded-md shadow-md border"></div>
+          <div className=" w-[8rem] h-10 rounded-md shadow-md border"></div> */}
+        </div>
+        <RestaurantCards
+          city={isSuccess && data?.data?.restaurants.name}
+          restaurants={data?.data?.restaurants}
+        />
+        <Footer />
       </div>
     )
   );

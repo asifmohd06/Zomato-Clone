@@ -1,6 +1,5 @@
 import { useMutation } from "react-query";
-import axios from "axios";
-
+import api from "../components/utils/axiosInstance";
 export const useCreateRestaurant = (clientToken, onError) => {
   const {
     mutateAsync,
@@ -24,11 +23,7 @@ export const useCreateRestaurant = (clientToken, onError) => {
           Authorization: `Bearer ${clientToken}`,
         },
       };
-      return axios.post(
-        `http://localhost:5000/api/clients/restaurants/add`,
-        formData,
-        config
-      );
+      return api.post(`/clients/restaurants/add`, formData, config);
     },
     { onError }
   );

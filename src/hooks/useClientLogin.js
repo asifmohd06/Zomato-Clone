@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,13 +7,13 @@ import {
   setUserName,
 } from "../components/features/clients/clientsSlice";
 import { useMemo } from "react";
+import api from "../components/utils/axiosInstance";
 //react toast
 import { toast } from "react-toastify";
 
 export const useClientLogin = (setServerError, reset) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const baseUrl = "http://localhost:5000";
   const config = {
     headers: {
       Accept: "application/json",
@@ -22,7 +21,7 @@ export const useClientLogin = (setServerError, reset) => {
     },
   };
   const { mutate, data, isSuccess } = useMutation((data) =>
-    axios.post(`${baseUrl}/api/clients/login`, data, config)
+    api.post(`/clients/login`, data, config)
   );
 
   const submitForm = (data) => {

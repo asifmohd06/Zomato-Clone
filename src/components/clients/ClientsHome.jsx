@@ -4,16 +4,17 @@ import Carousel from "./Carousel";
 import NotFound from "../NotFound";
 import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderBasic from "../HeaderBasic";
 import PopupMessage from "../PopupMessage";
-import { MdMoreVert } from "react-icons/md";
-import { HiOutlinePencilSquare } from "react-icons/hi2";
 import CategoryNavbar from "./CategoryNavbar";
 import ConfirmationModal from "./ConfirmationModal";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { Drinks, Maincourse, Rice, Starter, Pizza } from "../../images/menu";
 
+import { MdMoreVert } from "react-icons/md";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
+import ladder from "../../images/ladder.png";
 // import Rice from "../../images/menu/rice.svg";
 
 const ClientsHome = () => {
@@ -166,6 +167,7 @@ const ClientsHome = () => {
               <p className="text-center text-3xl font-semibold text-gray-700 after:block after:mx-auto after:mt-2 after:h-[0.1rem] after:w-[10rem] after:bg-gray-700">
                 MENU
               </p>
+
               <div className=" mx-auto my-5">
                 {/* category navbar */}
                 <CategoryNavbar
@@ -249,6 +251,19 @@ const ClientsHome = () => {
                     );
                   })}
                 </div>
+                {!totalCategories.length && (
+                  <div className="">
+                    <img
+                      className=" w-[8rem] mx-auto"
+                      src={ladder}
+                      alt="empty"
+                    />
+                    <p className=" text-center text-3xl font-semibold text-gray-600 mt-4">
+                      {" "}
+                      <Link to={"/createmenu"}>Add a Cuisine</Link>
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

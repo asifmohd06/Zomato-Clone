@@ -1,10 +1,8 @@
 import { useQuery } from "react-query";
-import axios from "axios";
+import api from "../components/utils/axiosInstance";
 
 export const useGetLocationDetail = (id) => {
-  return useQuery(
-    "get-location-detail",
-    () => axios.get(`http://localhost:5000/api/users/city/${id}`),
-    { refetchOnWindowFocus: false }
-  );
+  return useQuery("get-location-detail", () => api.get(`/users/city/${id}`), {
+    refetchOnWindowFocus: false,
+  });
 };
