@@ -13,6 +13,7 @@ module.exports = {
         menu1: "url(/public/menuBackground.jpg)",
         menu2: "url(/public/bgMenu2.jpg)",
         menu3: "url(/public/bgMenu3.jpg)",
+        menu4: "url(/src/images/cooking.svg)",
       },
     },
     screens: {

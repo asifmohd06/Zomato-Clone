@@ -8,7 +8,7 @@ import {
 } from "./forms";
 import NotFound from "./NotFound";
 import { useSelector } from "react-redux";
-import LocationSearchResultPage from "./LocationSearchResultPage";
+import LocationSearchResultPage from "../components/pages/searchResultPage/LocationSearchResultPage";
 import ClientsHome from "./clients/ClientsHome";
 import { Routes, Route } from "react-router-dom";
 

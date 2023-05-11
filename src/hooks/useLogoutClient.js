@@ -1,8 +1,5 @@
-import axios from "axios";
 import { useMutation } from "react-query";
-
-// const baseUrl = "http://localhost:5000";
-const baseUrl = "https://zomato06.onrender.com";
+import api from "../components/utils/axiosInstance";
 
 export const useLogoutClient = (clientToken, onSuccess, onError) => {
   const config = {
@@ -12,7 +9,7 @@ export const useLogoutClient = (clientToken, onSuccess, onError) => {
   };
   return useMutation(
     () => {
-      axios.post(`${baseUrl}/api/clients/logout`, {}, config);
+      api.post(`/clients/logout`, {}, config);
     },
     { onSuccess, onError }
   );

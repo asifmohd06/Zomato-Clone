@@ -7,19 +7,16 @@ import {
   setClientToken,
   resetUser,
 } from "../components/features/clients/clientsSlice";
-
-const baseUrl = "https://zomato06.onrender.com";
-// const baseUrl = "http://localhost:5000";
+import api from "../components/utils/axiosInstance";
 
 export const useCheckLoginStatus = (localToken) => {
   const dispatch = useDispatch();
-  // const localToken = window.localStorage.getItem("clientToken");
   const config = { headers: { Authorization: `Bearer ${localToken}` } };
   const resp = useQuery(
     "check-login-status",
     async () => {
       let response;
-      response = await axios.get(`${baseUrl}/api/clients/auth`, config);
+      response = await api.get(`/clients/auth`, config);
       return response;
     },
     {

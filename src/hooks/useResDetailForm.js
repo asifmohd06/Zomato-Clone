@@ -1,13 +1,10 @@
 import { useQuery } from "react-query";
-import axios from "axios";
+import api from "../components/utils/axiosInstance";
 
 export const useResDetailForm = (id) => {
   return useQuery(
     "res-detail-form",
-    () =>
-      axios.get(
-        `https://zomato06.onrender.com/api/clients/editrestaurant/${id}`
-      ),
+    () => api.get(`/clients/editrestaurant/${id}`),
     {
       refetchOnWindowFocus: false,
       enabled: !!id,

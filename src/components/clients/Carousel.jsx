@@ -59,7 +59,7 @@ const Carousel = ({ images }) => {
         }
         return (
           <img
-            className={`absolute  transition-transform duration-500  h-[100%] w-[100%] object-cover object-center ${position}`}
+            className={`absolute z-3  transition-transform duration-500  h-[100%] w-[100%] object-cover object-center ${position}`}
             src={image.url}
             alt=""
             key={index}

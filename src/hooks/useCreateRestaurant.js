@@ -1,6 +1,5 @@
 import { useMutation } from "react-query";
-import axios from "axios";
-
+import api from "../components/utils/axiosInstance";
 export const useCreateRestaurant = (clientToken, onError) => {
   const {
     mutateAsync,
@@ -24,11 +23,7 @@ export const useCreateRestaurant = (clientToken, onError) => {
           Authorization: `Bearer ${clientToken}`,
         },
       };
-      return axios.post(
-        `https://zomato06.onrender.com/api/clients/restaurants/add`,
-        formData,
-        config
-      );
+      return api.post(`/clients/restaurants/add`, formData, config);
     },
     { onError }
   );

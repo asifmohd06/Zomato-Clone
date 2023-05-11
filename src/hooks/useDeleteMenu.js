@@ -1,7 +1,5 @@
-import axios from "axios";
+import api from "../components/utils/axiosInstance";
 import { useMutation } from "react-query";
-// const baseUrl = "http://localhost:5000";
-const baseUrl = "https://zomato06.onrender.com";
 
 export const useDeleteMenu = (data, localToken) => {
   console.log({ data, localToken });
@@ -12,6 +10,6 @@ export const useDeleteMenu = (data, localToken) => {
     },
   };
   return useMutation(() =>
-    axios.patch(`${baseUrl}/api/clients/restaurants/deletemenu`, data, config)
+    api.patch(`/clients/restaurants/deletemenu`, data, config)
   );
 };
