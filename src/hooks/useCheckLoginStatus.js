@@ -9,14 +9,13 @@ import {
 } from "../components/features/clients/clientsSlice";
 import api from "../components/utils/axiosInstance";
 
-export const useCheckLoginStatus = (localToken) => {
+export const useCheckLoginStatus = () => {
   const dispatch = useDispatch();
-  const config = { headers: { Authorization: `Bearer ${localToken}` } };
   const resp = useQuery(
     "check-login-status",
     async () => {
       let response;
-      response = await api.get(`/clients/auth`, config);
+      response = await api.get(`/clients/auth`);
       return response;
     },
     {
