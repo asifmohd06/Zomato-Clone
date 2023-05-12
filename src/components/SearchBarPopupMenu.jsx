@@ -1,7 +1,13 @@
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const SearchBarPopupMenu = ({ handleClick, setIsDropDown, data }) => {
+const SearchBarPopupMenu = ({
+  handleClick,
+  setIsDropDown,
+  data,
+  top,
+  marginTop,
+}) => {
   const navigate = useNavigate();
   const redirect = (id) => {
     navigate(`/location/${id}`);
@@ -10,7 +16,7 @@ const SearchBarPopupMenu = ({ handleClick, setIsDropDown, data }) => {
   const ref = useOutsideClick(handleClick);
   return (
     <div
-      className="w-[20em] h-[13em] bg-white border-2 rounded-md absolute top-[3.5em] flex flex-col overflow-y-auto z-[2]"
+      className={`w-[20em] h-[13em] bg-white border-2 rounded-md absolute top-[${top}] mt-[${marginTop}]  flex flex-col overflow-y-auto z-[2]`}
       ref={ref}
       onClick={() => setIsDropDown(false)}
     >
@@ -24,6 +30,9 @@ const SearchBarPopupMenu = ({ handleClick, setIsDropDown, data }) => {
             <h2 className="py-4 ">{city.name}</h2>
           </div>,
         ])}
+      {!data?.data?.locations.length && (
+        <p className=" text-gray-500 mt-10 text-xl"> No results</p>
+      )}
     </div>
   );
 };

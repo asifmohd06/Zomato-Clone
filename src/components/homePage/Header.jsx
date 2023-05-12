@@ -126,6 +126,8 @@ const Header = () => {
               handleClick={handleClick}
               setIsDropDown={setIsDropDown}
               data={data}
+              top={"3.5em"}
+              marginTop={"0"}
             />
           )}
         </div>

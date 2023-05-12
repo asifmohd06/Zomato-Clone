@@ -2,13 +2,13 @@ import React from "react";
 
 const RestauranrCards = ({ city, restaurants }) => {
   return (
-    <div className=" max-w-[1100px] mx-auto mt-6 mb-12">
+    <div className=" max-w-[1100px] mx-4 lg:mx-auto mt-6 mb-12">
       <header>
         <h1 className=" text-[2rem] font-[550] text text-gray-800 tracking-wide">
           Delivery Restaurants in {city}{" "}
         </h1>
       </header>
-      <div className=" grid grid-cols-3 gap-3 mt-9">
+      <div className=" grid grid-cols-2 md:grid-cols-3 gap-3 mt-9">
         {restaurants?.restaurants?.map((restaurant) => {
           return (
             <div
@@ -18,8 +18,12 @@ const RestauranrCards = ({ city, restaurants }) => {
               <div className="rounded-md overflow-hidden h-[16rem]">
                 <img
                   className=" object-cover object-cente r w-full h-full"
-                  src={restaurant.images[0].url}
-                  alt="restaurant image"
+                  src={
+                    restaurant.menu[0]?.images[0]?.url
+                      ? restaurant.menu[0]?.images[0]?.url
+                      : restaurant.images[0].url
+                  }
+                  alt={restaurants.name + " image"}
                 />
               </div>
               <div className="w-full h-[1.5px] bg-[#000000af] opacity-20 mt-3"></div>
