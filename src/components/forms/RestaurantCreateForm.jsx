@@ -66,7 +66,7 @@ const RestaurantCreateForm = () => {
   const onError = () => {
     setServerError("oops ! Something went wrong");
   };
-  const { formSubmit } = useCreateRestaurant(clientToken, onError);
+  const { formSubmit, isLoading } = useCreateRestaurant(clientToken, onError);
 
   const editRes = async (data) => {
     const formData = new FormData();
@@ -248,12 +248,12 @@ const RestaurantCreateForm = () => {
             )}
             <div
               className={`${
-                isSubmitting && "hidden"
+                (isLoading || isSubmitting) && "hidden"
               } col-span-2 flex justify-center gap-12 mx-auto`}
             >
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isLoading}
                 className={` px-3 py-1 text-white w-fit mx-auto rounded-md  shadow-lg my-3 outline-none  ${
                   isSubmitting
                     ? "bg-gray-500"
@@ -278,7 +278,7 @@ const RestaurantCreateForm = () => {
             </div>
             <ClipLoader
               color={color}
-              loading={isSubmitting}
+              loading={isLoading || isSubmitting}
               // cssOverride={override}
               size={50}
               aria-label="Loading Spinner"

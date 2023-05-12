@@ -1,4 +1,3 @@
-import axios from "axios";
 import Loading from "../Loading";
 import Carousel from "./Carousel";
 import NotFound from "../NotFound";
@@ -15,11 +14,11 @@ import { Drinks, Maincourse, Rice, Starter, Pizza } from "../../images/menu";
 import { MdMoreVert } from "react-icons/md";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import ladder from "../../images/ladder.png";
+import api from "../utils/axiosInstance";
 // import Rice from "../../images/menu/rice.svg";
 
 const ClientsHome = () => {
   const [clickedCategory, setClickedCategory] = useState("Rice");
-  const baseUrl = "https://zomato06.onrender.com";
   // const [loading, setLoading] = useState(true);
   const [restaurant, setRestaurant] = useState(null);
   const [message, setMessage] = useState({ success: "", message: "" });
@@ -39,18 +38,19 @@ const ClientsHome = () => {
     return word.charAt(0).toUpperCase() + lower.slice(1);
   };
   const onSuccess = (data) => {
-    setRestaurant(data.data.restaurant);
+    setRestaurant(data?.data?.restaurant);
   };
   const onError = (error) => {
     console.log(error);
   };
 
   const getData = () => {
-    return axios.post(`${baseUrl}/api/clients/restaurants`, {}, config);
+    return api.post(`/clients/restaurants`, {}, config);
   };
-  const { isLoading, isError, error, data } = useQuery("data-fetch", getData, {
+  const { isFetching } = useQuery("data-fetch", getData, {
     onSuccess,
     onError,
+    refetchOnWindowFocus: false,
   });
 
   const changeItemOnClick = (category) => {
@@ -82,8 +82,8 @@ const ClientsHome = () => {
         },
       };
       const data = { id: restaurant._id, menuId: id };
-      await axios
-        .patch(`${baseUrl}/api/clients/restaurants/deletemenu`, data, config)
+      await api
+        .patch(`/clients/restaurants/deletemenu`, data, config)
         .then((res) => {
           if (res.data.success) {
             setMessage({ success: true, message: res.data.message });
@@ -112,10 +112,10 @@ const ClientsHome = () => {
     pizza: Pizza,
   };
 
-  if (isLoading) {
+  if (isFetching) {
     return <Loading />;
   }
-  if (!restaurant) {
+  if (!isFetching && !restaurant) {
     return (
       <div>
         <HeaderBasic />
