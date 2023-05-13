@@ -5,18 +5,18 @@ const SearchBarPopupMenu = ({
   handleClick,
   setIsDropDown,
   data,
-  top,
-  marginTop,
+  isSmallScreen,
 }) => {
   const navigate = useNavigate();
   const redirect = (id) => {
     navigate(`/location/${id}`);
   };
-
   const ref = useOutsideClick(handleClick);
   return (
     <div
-      className={`w-[20em] h-[13em] bg-white border-2 rounded-md absolute top-[${top}] mt-[${marginTop}]  flex flex-col overflow-y-auto z-[2]`}
+      className={`w-[20em] h-[13em] bg-white border-2 rounded-md absolute ${
+        isSmallScreen ? "mt-[28em]" : "top-[75px]"
+      }  flex flex-col overflow-y-auto z-[2]`}
       ref={ref}
       onClick={() => setIsDropDown(false)}
     >

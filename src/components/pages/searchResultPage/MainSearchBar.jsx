@@ -13,6 +13,7 @@ const MainSearchBar = ({
   searchData,
   isDropDown,
   SearchBarPopupMenu,
+  isSmallScreen,
 }) => {
   return (
     <div className=" hidden sm:order-2 sm:flex justify-center items-center border shadow-md rounded-md h-12 w-[800px] gap-2  px-3 py-2 mx-8">
@@ -37,8 +38,9 @@ const MainSearchBar = ({
             handleClick={handleClick}
             setIsDropDown={setIsDropDown}
             data={searchData}
-            top={"4.5em"}
-            marginTop={"0"}
+            top={"65px"}
+            marginTop={"250px"}
+            isSmallScreen={isSmallScreen}
           />
         )}
         <IoMdArrowDropdown className=" flex-shrink-0" size={"24px"} />

@@ -13,6 +13,7 @@ const ShortSearchBar = ({
   searchData,
   isDropDown,
   SearchBarPopupMenu,
+  isSmallScreen,
 }) => {
   return (
     <div className="mx-4 lg:mx-auto sm:hidden flex flex-col gap-4 my-4">
@@ -39,6 +40,7 @@ const ShortSearchBar = ({
             data={searchData}
             top={"3.5em"}
             marginTop={"10em"}
+            isSmallScreen={isSmallScreen}
           />
         )}
 

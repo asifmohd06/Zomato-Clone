@@ -81,6 +81,7 @@ const LocationDetails = () => {
                 searchData,
                 isDropDown,
                 SearchBarPopupMenu,
+                isSmallScreen,
               }}
             />
           )}
@@ -105,6 +106,7 @@ const LocationDetails = () => {
               searchData,
               isDropDown,
               SearchBarPopupMenu,
+              isSmallScreen,
             }}
           />
         )}
