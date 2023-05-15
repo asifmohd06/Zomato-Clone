@@ -13,7 +13,7 @@ const RestauranrCards = ({ city, restaurants }) => {
           return (
             <div
               className=" flex flex-col p-3 gap-2 hover:shadow-lg border border-transparent hover:border hover:border-gray-200 hover:rounded-xl"
-              key={restaurant.name}
+              key={restaurant._id}
             >
               <div className="rounded-md overflow-hidden h-[16rem]">
                 <img

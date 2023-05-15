@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import HeaderBasic from "../HeaderBasic";
+import api from "../utils/axiosInstance";
 const RegisterForm = () => {
   const {
     register,
@@ -28,9 +29,6 @@ const RegisterForm = () => {
 
   const errorMsgStyle = " text-red-700 tracking-wide w-[20rem] md:w-[25rem] ";
 
-  const baseUrl = "https://zomato06.onrender.com";
-  // const baseUrl = "http://localhost:5000";
-
   const submitForm = async (data) => {
     const config = {
       headers: {
@@ -38,8 +36,8 @@ const RegisterForm = () => {
         "Content-Type": "application/json",
       },
     };
-    await axios
-      .post(`${baseUrl}/api/clients/register`, data, config)
+    await api
+      .post(`/clients/register`, data, config)
       .then((res) => {
         if (res.data.success) {
           dispatch(setClientToken(res.data.token));

@@ -1,6 +1,10 @@
 import React from "react";
+import { MdOutlineAddBox } from "react-icons/md";
+import { VscDiffAdded } from "react-icons/vsc";
+import { useNavigate } from "react-router-dom";
 
 const CategoryNavbar = ({ props }) => {
+  const navigate = useNavigate();
   const {
     changeItemOnClick,
     totalCategories,
@@ -16,6 +20,19 @@ const CategoryNavbar = ({ props }) => {
 
   return (
     <div className="flex flex-wrap  px-4  justify-center md:gap-2  py-6  mx-auto bg-white shadow-md rounded-md">
+      <div
+        className={` px-4 py-4 hover:cursor-pointer`}
+        key={"add"}
+        onClick={() => navigate("/createmenu")}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+          }
+        }}
+      >
+        <VscDiffAdded size={65} opacity={"75%"} />
+        <p className={`  text-center font-semibold  `}>Add</p>
+      </div>
       {newCategory.map((category, index) => {
         return (
           <div

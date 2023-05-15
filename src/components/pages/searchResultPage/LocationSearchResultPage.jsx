@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetLocationDetail } from "../../../hooks/useGetLocationDetails";
 import NotFound from "../../NotFound";
 import footerlogo from "../../../images/footerlogo.avif";
@@ -14,11 +14,13 @@ import SearchBarPopupMenu from "../../SearchBarPopupMenu";
 import { useGetLocations } from "../../../hooks/useGetLocations";
 import MainSearchBar from "./MainSearchBar";
 import ShortSearchBar from "./ShortSearchBar";
+import { useSelector } from "react-redux";
 
 const LocationDetails = () => {
   let { id } = useParams();
   const [isMenuIconClicked, setIsMenuIconClicked] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
+  const { userName, clientToken } = useSelector((store) => store.client);
 
   useEffect(() => {
     const handleResize = () => {
@@ -52,11 +54,13 @@ const LocationDetails = () => {
     isSuccess && (
       <div className=" bg-[#FFFFFF] relative ">
         <div className=" max-w-[1100px] mx-4 lg:mx-auto py-4 flex justify-between sm:justify-start ">
-          <img
-            src={footerlogo}
-            alt="logo"
-            className=" w-[8rem] self-center order-2 sm:order-1 "
-          />
+          <Link
+            to={"/"}
+            className=" w-[8rem] self-center order-2 sm:order-1 shrink-0"
+          >
+            <img src={footerlogo} alt="logo" />
+          </Link>
+
           <button
             className="sm:hidden order-1 z-10"
             onClick={() => setIsMenuIconClicked(!isMenuIconClicked)}
@@ -86,9 +90,26 @@ const LocationDetails = () => {
             />
           )}
 
-          <div className="sm:flex gap-4 hidden order-3 flex-shrink-0 text-xl text-gray-500 items-center">
-            <a href="">Log in</a>
-            <a href="">Sign up</a>
+          <div className="sm:flex gap-4 hidden order-3 flex-shrink-0 text-xl text-gray-500 items-center ">
+            {clientToken ? (
+              <>
+                <Link to={"/"} className=" hover:text-gray-700">
+                  Home
+                </Link>
+                <Link to={"/clients/home"} className=" hover:text-gray-700">
+                  My Restaurant
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to={"/clients/login"} className=" hover:text-gray-700">
+                  Log in
+                </Link>
+                <Link to={"/clients/register"} className=" hover:text-gray-700">
+                  Sign up
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
@@ -118,8 +139,25 @@ const LocationDetails = () => {
             isMenuIconClicked ? "0%" : "-100%"
           }]   sm:hidden w-[12em] h-screen border-r-2 shadow-md py-16 px-4 flex flex-col gap-4 text-gray-500 text-2xl bg-white`}
         >
-          <a href="#">Log in</a>
-          <a href="#">Sign up</a>
+          {clientToken ? (
+            <>
+              <Link to={"/"} className=" hover:text-gray-700">
+                Home
+              </Link>
+              <Link to={"/clients/home"} className=" hover:text-gray-700">
+                My Restaurant
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to={"/clients/login"} className=" hover:text-gray-700">
+                Log in
+              </Link>
+              <Link to={"/clients/register"} className=" hover:text-gray-700">
+                Sign up
+              </Link>
+            </>
+          )}
         </div>
 
         {/* filter options */}

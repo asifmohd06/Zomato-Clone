@@ -1,13 +1,12 @@
 import Loading from "../Loading";
 import Carousel from "./Carousel";
-import NotFound from "../NotFound";
 import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import HeaderBasic from "../HeaderBasic";
 import PopupMessage from "../PopupMessage";
 import CategoryNavbar from "./CategoryNavbar";
-import ConfirmationModal from "./ConfirmationModal";
+import ConfirmationModal from "../common/ConfirmationModal";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { Drinks, Maincourse, Rice, Starter, Pizza } from "../../images/menu";
 
@@ -119,9 +118,9 @@ const ClientsHome = () => {
     return (
       <div>
         <HeaderBasic />
-        <div className=" w-fit mx-auto my-[12%] font-[700] text-center text-[3rem] text-gray-500">
-          <p className="">Looks lonely here</p>
-          <p>
+        <div className=" h-96 flex flex-col my-auto justify-center items-center mx-4 lg:mx-auto  font-[700] text-center text-3xl lg:text-[3rem] text-gray-500">
+          <p>Looks lonely here</p>
+          <p className="mt-5">
             Lets create a new &nbsp;
             <span className="text-gray-700">
               <Link to={"/addrestaurant"}>Restaurant &rarr;</Link>
@@ -141,8 +140,9 @@ const ClientsHome = () => {
             {isConfirmationPopup && (
               <ConfirmationModal
                 props={{
-                  targetMenu,
-                  deleteItem,
+                  name: targetMenu?.menuName,
+                  id: targetMenu?._id,
+                  onclickFn: deleteItem,
                   confirmationPopup,
                   isConfirmationPopup,
                 }}

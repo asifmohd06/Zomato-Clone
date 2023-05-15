@@ -3,21 +3,20 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import HeaderBasic from "../HeaderBasic";
-import axios from "axios";
-import { useResDetailForm } from "../../hooks/useResDetailForm";
 import { useCreateRestaurant } from "../../hooks/useCreateRestaurant";
-import { useEditRestaurant } from "../../hooks/useEditRestaurant";
 import api from "../utils/axiosInstance";
-import { toast } from "react-toastify";
 import ClipLoader from "react-spinners/ClipLoader";
+import ConfirmationModal from "../common/ConfirmationModal";
+import { useDeleteRes } from "../../hooks/useDeleteRestaurant";
+import { toast } from "react-toastify";
 
 const RestaurantCreateForm = () => {
   const navigate = useNavigate();
   const [isDetailsLoading, setIsDetailsLoading] = useState(true);
   const [restaurant, setRestaurant] = useState("");
-  let [color, setColor] = useState("#ffffff");
+  let [color, setColor] = useState("#ffffff"); //for cliploader
 
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isDeleteBtnClicked, setIsDeleteBtnClicked] = useState(false);
   const [serverError, setServerError] = useState(false);
   const { clientToken } = useSelector((store) => store.client);
   let images = [];
@@ -101,6 +100,33 @@ const RestaurantCreateForm = () => {
     });
   };
   //***************//
+  const onDeleteResSuccess = (data) => {
+    if (data?.data?.success) {
+      toast.success(`${data?.data?.message}`, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      navigate("/clients/home");
+    } else if (!data?.data?.success) {
+      toast.error("Oops, Something went wrong !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  };
+  const onDeleteResError = () => {
+    console.log("error");
+    toast.error("Oops, Something went wrong !", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  const { isFetching, refetch, isFetched, data } = useDeleteRes(
+    id,
+    onDeleteResSuccess,
+    onDeleteResError
+  );
+
+  const deleteRes = () => {
+    refetch();
+  };
 
   const inputStyle =
     "bg-[#12345653]  w-full text-white tracking-wider text-md rounded-lg  border-2 border-gray-300 focus:outline-none focus:border-2 focus:border-[#123456d3]  block  p-2.5";
@@ -111,6 +137,18 @@ const RestaurantCreateForm = () => {
   return (
     <div className=" bg-menu1 bg-center bg-no-repeat bg-fixed bg-cover min-h-[100vh] pb-4">
       <HeaderBasic />
+      {isDeleteBtnClicked && (
+        <ConfirmationModal
+          props={{
+            name: restaurant?.name,
+            id,
+            onclickFn: deleteRes,
+            confirmationPopup: setIsDeleteBtnClicked,
+            isConfirmationPopup: !isDeleteBtnClicked,
+            isFetching,
+          }}
+        />
+      )}
       <div className=" px-4">
         <div className=" max-w-[800px] min-h-[600px] px-[3rem] md:px-[5rem]  bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-100   mx-auto mt-8 rounded-lg shadow-lg ">
           <h1 className=" text-3xl text-center mt-6 font-semibold tracking-wider">
@@ -264,7 +302,8 @@ const RestaurantCreateForm = () => {
               </button>
               {id && (
                 <button
-                  onClick={() => console.log("clicked")}
+                  type="button"
+                  onClick={() => setIsDeleteBtnClicked(!isDeleteBtnClicked)}
                   disabled={isSubmitting}
                   className={` px-3 py-1 text-white w-fit mx-auto rounded-md  shadow-lg my-3 outline-none  ${
                     isSubmitting
@@ -276,6 +315,7 @@ const RestaurantCreateForm = () => {
                 </button>
               )}
             </div>
+
             <ClipLoader
               color={color}
               loading={isLoading || isSubmitting}

@@ -34,29 +34,25 @@ const Carousel = ({ images }) => {
   return (
     <div className="w-full  h-[20rem] relative my-4 rounded-md overflow-hidden">
       {images.map((image, index) => {
-        // let position = "";
-        // if (index === currentIndex) {
-        //   position = "translate-x-0";
-        // } else if (index < currentIndex || index === images.length - 1) {
-        //   position = "translate-x--[100%]";
-        // } else if (index > currentIndex) {
-        //   position = "translate-x-[100%]";
-        // }
         let position = `translate-x-[100%] ${
           opacity && "opacity-0"
         }`; /*next slide */
+        if (images.length <= 1) {
+          position = "translate-x-0 ";
+        } else {
+          if (index === currentIndex) {
+            position = "translate-x-0 "; /*active slide */
+          }
+          if (
+            index === currentIndex - 1 ||
+            (currentIndex === 0 && index === images.length - 1)
+          ) {
+            position = `translate-x-[-100%] ${
+              !opacity && "opacity-0"
+            }`; /*prev slide */
+          }
+        }
 
-        if (index === currentIndex) {
-          position = "translate-x-0 "; /*active slide */
-        }
-        if (
-          index === currentIndex - 1 ||
-          (currentIndex === 0 && index === images.length - 1)
-        ) {
-          position = `translate-x-[-100%] ${
-            !opacity && "opacity-0"
-          }`; /*prev slide */
-        }
         return (
           <img
             className={`absolute z-3  transition-transform duration-500  h-[100%] w-[100%] object-cover object-center ${position}`}
@@ -67,14 +63,18 @@ const Carousel = ({ images }) => {
         );
       })}
       <button
-        className=" absolute top-0 bottom-0 left-1"
+        className={`${
+          images.length <= 1 && "hidden"
+        } absolute top-0 bottom-0 left-1`}
         onClick={() => setCurrentIndex(checkPrevIndex(currentIndex))}
         tabIndex={3}
       >
         <GrFormPrevious size="48px" />
       </button>
       <button
-        className=" absolute top-0 bottom-0 right-1"
+        className={`${
+          images.length <= 1 && "hidden"
+        } absolute top-0 bottom-0 right-1`}
         onClick={() => setCurrentIndex(checkNextIndex(currentIndex))}
         tabIndex={4}
       >
